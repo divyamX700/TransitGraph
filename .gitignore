@@ -1,0 +1,50 @@
+# Node.js
+node_modules/
+dist/
+dist-ssr/
+.npm/
+*.log
+
+# C++ Build Artifacts
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.pdb
+*.ilk
+engine/build/
+engine/raptor.exe
+
+# Local IDE and Configs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+.DS_Store
+.agents/
+
+# Python Virtual Environments & Caches
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# Data (Optional: adjust if you want to push raw CSVs, but block large/temp data)
+# data/raw/
+# data/gtfs/*.txt  # Uncomment if you don't want to push the GTFS dataset to GitHub
+
+# Temp/Scratch
+scratch/
+.tempmediaStorage/
+*.temp
+
+# AI Agent Context
+AGENTS.md
+skills-lock.json

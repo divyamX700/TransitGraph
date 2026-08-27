@@ -1,0 +1,7 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+CR_MAIN,CR,CR_MAIN,Central Line,2
+CR_HARBOUR,CR,CR_HARBOUR,Harbour Line,2
+CR_TRANS,CR,CR_TRANS,Trans-Harbour Line,2
+CR_PORT,CR,CR_PORT,Port Line,2
+WR_MAIN,WR,WR_MAIN,Western Line,2
+WR_DAHANU,WR,WR_DAHANU,Western Dahanu Line,2

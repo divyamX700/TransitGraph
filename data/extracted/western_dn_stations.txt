@@ -1,0 +1,42 @@
+ANDHERI
+BANDRA
+BORIVALI
+Bhayandar
+CHURCHGATE
+CHURCHGATE
+Marine Lines Charni Road Grant Road
+M'BAI CENTRAL (L)
+Mahalakshmi Lower Parel Prabhadevi DADAR
+Matunga Road Mahim Jn.
+BANDRA
+Khar Road Santa Cruz Vile Parle ANDHERI
+Jogeshwari Ram Mandir Goregaon Malad Kandivli BORIVALI
+Dahisar Mira Road Bhayandar Naigaon Vasai Road
+Nalla Sopara
+VIRAR
+Charni Road
+DADAR
+DN TRAINS
+Dahisar
+Goregaon
+Grant Road
+Jogeshwari
+Kandivli
+Khar Road
+Lower Parel
+M'BAI CENTRAL (L)
+Mahalakshmi
+Mahim Jn.
+Malad
+Marine Lines
+Matunga Road
+Mira Road
+Naigaon
+Nalla Sopara
+Prabhadevi
+Ram Mandir
+Santa Cruz
+VIRAR
+Vasai Road
+Vile Parle
+W.E.F.  01.05.2026

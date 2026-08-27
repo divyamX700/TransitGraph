@@ -1,0 +1,3 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang
+CR,Central Railway,https://cr.indianrailways.gov.in/,Asia/Kolkata,en
+WR,Western Railway,https://wr.indianrailways.gov.in/,Asia/Kolkata,en
