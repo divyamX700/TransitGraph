@@ -9,9 +9,9 @@ const LRUCache = require('./lru');
 const app = express();
 const port = 3000;
 
-// CORS for Vite dev server
+// CORS for all origins (needed for Vercel -> Render communication)
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
   next();
 });
