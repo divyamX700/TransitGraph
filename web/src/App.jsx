@@ -28,12 +28,12 @@ export default function App() {
 
   // Load map shapes once
   useEffect(() => {
-    fetch('/api/shapes')
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/shapes`)
       .then(r => r.json())
       .then(data => { if (!data.error) setShapesGeoJSON(data) })
       .catch(console.error)
       
-    fetch('/api/stations')
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/stations`)
       .then(r => r.json())
       .then(setStationsMap)
       .catch(console.error)
@@ -59,7 +59,7 @@ export default function App() {
     const mins = h * 60 + m
 
     try {
-      const res = await fetch(`/api/route?from=${from.id}&to=${to.id}&time=${mins}`)
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/route?from=${from.id}&to=${to.id}&time=${mins}`)
       const data = await res.json()
       if (data.error) throw new Error(data.error)
       setRoutes(data.routes || [])

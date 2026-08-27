@@ -22,7 +22,7 @@ export default function StationInput({ label, value, onChange, placeholder, id }
     if (q.length < 2) { setSuggestions([]); setOpen(false); return }
 
     debounce.current = setTimeout(async () => {
-      const res = await fetch(`/api/stations?prefix=${encodeURIComponent(q)}`)
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/stations?prefix=${encodeURIComponent(q)}`)
       const data = await res.json()
       setSuggestions(data.slice(0, 8))
       setOpen(data.length > 0)
