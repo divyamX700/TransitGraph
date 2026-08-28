@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from 'react'
 import L from 'leaflet'
 import { getLineColor } from './utils.js'
 
-const DARK_TILES = `https://basemaps.cartocdn.com/rastertiles/dark_matter/{z}/{x}/{y}.png?key=${import.meta.env.VITE_CARTO_API_KEY}`
+const DARK_TILES = `https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png?key=${import.meta.env.VITE_CARTO_API_KEY}`
 const TILES_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
 
 // Haversine distance squared (fast comparison, no sqrt needed)
