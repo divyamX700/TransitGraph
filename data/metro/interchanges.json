@@ -1,0 +1,23 @@
+{
+  "_comment": "Official interchanges (per mumbaimetroroute.com and the operators) whose walking distance the pedestrian router gets wrong or that exceed the 1 km cap. They replace the routed value in scripts/build_transfers.py and are always kept. Distances are estimates; walking time is derived from them like any other footpath.",
+  "interchanges": [
+    {
+      "a": "CSMT",
+      "b": "M3_CHHATRAPATI_SHIVAJI_MAHARAJ_TERMINUS",
+      "meters": 600,
+      "note": "Line 3 CSMT station is an official interchange with CSMT. Routing finds 1195 m over the surface roads; the stations are 400 m apart in a straight line, so 1.5 x 400 m is used for the connection."
+    },
+    {
+      "a": "M2B_MANKHURD",
+      "b": "MANKHURD",
+      "meters": 250,
+      "note": "Line 2B Mankhurd is listed as an interchange with the Harbour line. Routing finds 2.2 km (barriers on the surface); the stations are 140 m apart in a straight line, so an estimate of 250 m is used."
+    },
+    {
+      "a": "JOGESHWARI",
+      "b": "M7_JOGESHWARI_EAST",
+      "meters": 1173,
+      "note": "Line 7 Jogeshwari East is listed as an interchange with Western Railway. The routed walk is 1173 m, over the 1 km cap, and is used as is."
+    }
+  ]
+}

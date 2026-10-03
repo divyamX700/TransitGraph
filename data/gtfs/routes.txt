@@ -1,7 +1,12 @@
-route_id,agency_id,route_short_name,route_long_name,route_type
-CR_MAIN,CR,CR_MAIN,Central Line,2
-CR_HARBOUR,CR,CR_HARBOUR,Harbour Line,2
-CR_TRANS,CR,CR_TRANS,Trans-Harbour Line,2
-CR_PORT,CR,CR_PORT,Port Line,2
-WR_MAIN,WR,WR_MAIN,Western Line,2
-WR_DAHANU,WR,WR_DAHANU,Western Dahanu Line,2
+route_id,agency_id,route_short_name,route_long_name,route_type,route_color
+CR_MAIN,CR,CR_MAIN,Central Line,2,#DC2626
+CR_HARBOUR,CR,CR_HARBOUR,Harbour Line,2,#0891B2
+CR_TRANS,CR,CR_TRANS,Trans-Harbour Line,2,#7C3AED
+CR_PORT,CR,CR_PORT,Port Line,2,#059669
+WR_MAIN,WR,WR_MAIN,Western Line,2,#2563EB
+WR_DAHANU,WR,WR_DAHANU,Western Dahanu Line,2,#2563EB
+M1,MMOPL,1,Metro Line 1 (Blue),1,#1E68BF
+M2A,MMMOCL,2A,Metro Line 2A (Yellow),1,#E8B100
+M7,MMMOCL,7,Metro Lines 7 + 9 (Red),1,#D9342B
+M3,MMRC,3,Metro Line 3 (Aqua),1,#14A8A0
+M2B,MMMOCL,2B,"Metro Line 2B (Yellow, phase 1)",1,#E8B100

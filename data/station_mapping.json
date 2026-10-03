@@ -4,24 +4,21 @@
             "AIRL"
         ],
         "lat": 19.1585231,
-        "lon": 72.9994023,
-        "normalized_name": "Airoli"
+        "lon": 72.9994023
     },
     "Ambernath": {
         "raw_names": [
             "Ambernath"
         ],
         "lat": 19.2100605,
-        "lon": 73.1846877,
-        "normalized_name": "Ambernath"
+        "lon": 73.1846877
     },
     "Ambivli": {
         "raw_names": [
             "Ambivli"
         ],
         "lat": 19.2682913,
-        "lon": 73.1722459,
-        "normalized_name": "Ambivli"
+        "lon": 73.1722459
     },
     "Andheri": {
         "raw_names": [
@@ -29,40 +26,35 @@
             "Andheri"
         ],
         "lat": 19.1196976,
-        "lon": 72.8464205,
-        "normalized_name": "Andheri"
+        "lon": 72.8464205
     },
     "Asangaon": {
         "raw_names": [
             "Asangaon"
         ],
         "lat": 19.4397472,
-        "lon": 73.3080116,
-        "normalized_name": "Asangaon"
+        "lon": 73.3080116
     },
     "Atgaon": {
         "raw_names": [
             "Atgaon"
         ],
         "lat": 19.5035419,
-        "lon": 73.3282574,
-        "normalized_name": "Atgaon"
+        "lon": 73.3282574
     },
     "Badlapur": {
         "raw_names": [
             "Badlapur"
         ],
         "lat": 19.1666237,
-        "lon": 73.2389064,
-        "normalized_name": "Badlapur"
+        "lon": 73.2389064
     },
     "Bamandongri": {
         "raw_names": [
             "BAMANDONGRI"
         ],
         "lat": 18.9751702,
-        "lon": 73.0244037,
-        "normalized_name": "Bamandongri"
+        "lon": 73.0244037
     },
     "Bandra": {
         "raw_names": [
@@ -70,33 +62,24 @@
             "Bandra"
         ],
         "lat": 19.0549792,
-        "lon": 72.8402203,
-        "normalized_name": "Bandra"
+        "lon": 72.8402203
     },
     "Bhandup": {
         "raw_names": [
             "Bhandup"
         ],
         "lat": 19.142757,
-        "lon": 72.9376543,
-        "normalized_name": "Bhandup"
+        "lon": 72.9376543
     },
     "Bhayandar": {
         "raw_names": [
             "BHAYANDAR",
-            "Bhayandar"
+            "BHAYANDER",
+            "Bhayandar",
+            "Bhayander"
         ],
         "lat": 19.3101847,
-        "lon": 72.8526988,
-        "normalized_name": "Bhayandar"
-    },
-    "Bhayander": {
-        "raw_names": [
-            "BHAYANDER"
-        ],
-        "lat": 19.3101847,
-        "lon": 72.8526988,
-        "normalized_name": "Bhayander"
+        "lon": 72.8526988
     },
     "Bhivpuri Road": {
         "raw_names": [
@@ -104,8 +87,7 @@
             "Bhivpuri road"
         ],
         "lat": 18.9705491,
-        "lon": 73.3314374,
-        "normalized_name": "Bhivpuri Road"
+        "lon": 73.3314374
     },
     "Boisar": {
         "raw_names": [
@@ -113,24 +95,21 @@
             "Boisar"
         ],
         "lat": 19.7984865,
-        "lon": 72.761452,
-        "normalized_name": "Boisar"
+        "lon": 72.761452
     },
     "Borivali": {
         "raw_names": [
             "BORIVALI"
         ],
         "lat": 19.229068,
-        "lon": 72.8573628,
-        "normalized_name": "Borivali"
+        "lon": 72.8573628
     },
     "Byculla": {
         "raw_names": [
             "Byculla"
         ],
         "lat": 18.9766219,
-        "lon": 72.8327936,
-        "normalized_name": "Byculla"
+        "lon": 72.8327936
     },
     "CBD Belapur": {
         "raw_names": [
@@ -139,8 +118,7 @@
             "BEPR"
         ],
         "lat": 19.0205999,
-        "lon": 73.0402663,
-        "normalized_name": "CBD Belapur"
+        "lon": 73.0402663
     },
     "CSMT": {
         "raw_names": [
@@ -148,56 +126,49 @@
             "CSMT"
         ],
         "lat": 18.939856,
-        "lon": 72.8355191,
-        "normalized_name": "CSMT"
+        "lon": 72.8355191
     },
     "Charni Road": {
         "raw_names": [
             "Charni Road"
         ],
         "lat": 18.9518437,
-        "lon": 72.8182401,
-        "normalized_name": "Charni Road"
+        "lon": 72.8182401
     },
     "Chembur": {
         "raw_names": [
             "Chembur"
         ],
         "lat": 19.0626,
-        "lon": 72.9011,
-        "normalized_name": "Chembur"
+        "lon": 72.9011
     },
     "Chinchpokli": {
         "raw_names": [
             "Chinchpokli"
         ],
         "lat": 18.9871984,
-        "lon": 72.8326716,
-        "normalized_name": "Chinchpokli"
+        "lon": 72.8326716
     },
     "Chunabhatti": {
         "raw_names": [
             "Chunabhatti"
         ],
         "lat": 19.0517703,
-        "lon": 72.8690974,
-        "normalized_name": "Chunabhatti"
+        "lon": 72.8690974
     },
     "Churchgate": {
         "raw_names": [
             "CHURCHGATE"
         ],
         "lat": 18.934886,
-        "lon": 72.827164,
-        "normalized_name": "Churchgate"
+        "lon": 72.827164
     },
     "Cotton Green": {
         "raw_names": [
             "Cotton Green"
         ],
         "lat": 18.9871866,
-        "lon": 72.8438965,
-        "normalized_name": "Cotton Green"
+        "lon": 72.8438965
     },
     "Currey Road": {
         "raw_names": [
@@ -205,8 +176,7 @@
             "Currey road"
         ],
         "lat": 18.9937486,
-        "lon": 72.8328556,
-        "normalized_name": "Currey Road"
+        "lon": 72.8328556
     },
     "Dadar": {
         "raw_names": [
@@ -214,32 +184,28 @@
             "Dadar"
         ],
         "lat": 19.018335,
-        "lon": 72.843214,
-        "normalized_name": "Dadar"
+        "lon": 72.843214
     },
     "Dahanu Road": {
         "raw_names": [
             "DAHANU ROAD"
         ],
         "lat": 19.9915236,
-        "lon": 72.7434083,
-        "normalized_name": "Dahanu Road"
+        "lon": 72.7434083
     },
     "Dahisar": {
         "raw_names": [
             "Dahisar"
         ],
         "lat": 19.2493572,
-        "lon": 72.8596302,
-        "normalized_name": "Dahisar"
+        "lon": 72.8596302
     },
     "Digha Gaon": {
         "raw_names": [
             "DIGH"
         ],
         "lat": 19.1807762,
-        "lon": 72.9944301,
-        "normalized_name": "Digha Gaon"
+        "lon": 72.9944301
     },
     "Diva": {
         "raw_names": [
@@ -247,104 +213,91 @@
             "Diva"
         ],
         "lat": 19.1946052,
-        "lon": 73.0554607,
-        "normalized_name": "Diva"
+        "lon": 73.0554607
     },
     "Dockyard Road": {
         "raw_names": [
             "Dockyard Road"
         ],
         "lat": 18.9674767,
-        "lon": 72.8445477,
-        "normalized_name": "Dockyard Road"
+        "lon": 72.8445477
     },
     "Dolavli": {
         "raw_names": [
             "Dolavli"
         ],
         "lat": 18.8331631,
-        "lon": 73.3203444,
-        "normalized_name": "Dolavli"
+        "lon": 73.3203444
     },
     "Dombivli": {
         "raw_names": [
             "Dombivli"
         ],
         "lat": 19.2180493,
-        "lon": 73.0861355,
-        "normalized_name": "Dombivli"
+        "lon": 73.0861355
     },
     "Dronagiri": {
         "raw_names": [
             "DRONAGIRI"
         ],
         "lat": 18.8813327,
-        "lon": 72.9647315,
-        "normalized_name": "Dronagiri"
+        "lon": 72.9647315
     },
     "Gavhan": {
         "raw_names": [
             "GAVHAN"
         ],
         "lat": 18.9388268,
-        "lon": 73.017833,
-        "normalized_name": "Gavhan"
+        "lon": 73.017833
     },
     "Ghansoli": {
         "raw_names": [
             "GNSL"
         ],
         "lat": 19.1163113,
-        "lon": 73.0070197,
-        "normalized_name": "Ghansoli"
+        "lon": 73.0070197
     },
     "Ghatkopar": {
         "raw_names": [
             "Ghatkopar"
         ],
         "lat": 19.0856928,
-        "lon": 72.9083668,
-        "normalized_name": "Ghatkopar"
+        "lon": 72.9083668
     },
     "Goregaon": {
         "raw_names": [
             "Goregaon"
         ],
         "lat": 19.1648688,
-        "lon": 72.8495492,
-        "normalized_name": "Goregaon"
+        "lon": 72.8495492
     },
     "Govandi": {
         "raw_names": [
             "Govandi"
         ],
         "lat": 19.0553688,
-        "lon": 72.9150702,
-        "normalized_name": "Govandi"
+        "lon": 72.9150702
     },
     "Grant Road": {
         "raw_names": [
             "Grant Road"
         ],
         "lat": 18.9632181,
-        "lon": 72.8180437,
-        "normalized_name": "Grant Road"
+        "lon": 72.8180437
     },
     "Guru Tegh Bahadur Nagar": {
         "raw_names": [
             "GTB Nagar"
         ],
         "lat": 19.0380048,
-        "lon": 72.8643455,
-        "normalized_name": "Guru Tegh Bahadur Nagar"
+        "lon": 72.8643455
     },
     "Jogeshwari": {
         "raw_names": [
             "Jogeshwari"
         ],
         "lat": 19.1361821,
-        "lon": 72.848936,
-        "normalized_name": "Jogeshwari"
+        "lon": 72.848936
     },
     "Juinagar": {
         "raw_names": [
@@ -352,40 +305,29 @@
             "Juinagar"
         ],
         "lat": 19.0558651,
-        "lon": 73.0182495,
-        "normalized_name": "Juinagar"
+        "lon": 73.0182495
     },
     "Kalva": {
         "raw_names": [
             "Kalva"
         ],
         "lat": 19.1952243,
-        "lon": 72.9963331,
-        "normalized_name": "Kalva"
+        "lon": 72.9963331
     },
     "Kalyan": {
         "raw_names": [
             "Kalyan"
         ],
         "lat": 19.2352248,
-        "lon": 73.1344903,
-        "normalized_name": "Kalyan"
+        "lon": 73.1344903
     },
     "Kandivali": {
         "raw_names": [
-            "Kandivali"
-        ],
-        "lat": 19.2041136,
-        "lon": 72.8517376,
-        "normalized_name": "Kandivali"
-    },
-    "Kandivli": {
-        "raw_names": [
+            "Kandivali",
             "Kandivli"
         ],
         "lat": 19.2041136,
-        "lon": 72.8517376,
-        "normalized_name": "Kandivli"
+        "lon": 72.8517376
     },
     "Kanjur Marg": {
         "raw_names": [
@@ -393,48 +335,42 @@
             "Kanjur marg"
         ],
         "lat": 19.1286526,
-        "lon": 72.9280394,
-        "normalized_name": "Kanjur Marg"
+        "lon": 72.9280394
     },
     "Karjat": {
         "raw_names": [
             "Karjat"
         ],
         "lat": 18.9099653,
-        "lon": 73.3209629,
-        "normalized_name": "Karjat"
+        "lon": 73.3209629
     },
     "Kasara": {
         "raw_names": [
             "Kasara"
         ],
         "lat": 19.6482325,
-        "lon": 73.4735887,
-        "normalized_name": "Kasara"
+        "lon": 73.4735887
     },
     "Kelavli": {
         "raw_names": [
             "Kelavli"
         ],
         "lat": 18.8445449,
-        "lon": 73.3189117,
-        "normalized_name": "Kelavli"
+        "lon": 73.3189117
     },
     "Kelve Road": {
         "raw_names": [
             "Kelve Road"
         ],
         "lat": 19.6240526,
-        "lon": 72.7911751,
-        "normalized_name": "Kelve Road"
+        "lon": 72.7911751
     },
     "Khadavli": {
         "raw_names": [
             "Khadavli"
         ],
         "lat": 19.356724,
-        "lon": 73.2190375,
-        "normalized_name": "Khadavli"
+        "lon": 73.2190375
     },
     "Khandeshwar": {
         "raw_names": [
@@ -442,24 +378,21 @@
             "Khandeshwar"
         ],
         "lat": 19.0073498,
-        "lon": 73.0952827,
-        "normalized_name": "Khandeshwar"
+        "lon": 73.0952827
     },
     "Khar Road": {
         "raw_names": [
             "Khar Road"
         ],
         "lat": 19.0682411,
-        "lon": 72.8400412,
-        "normalized_name": "Khar Road"
+        "lon": 72.8400412
     },
     "Khardi": {
         "raw_names": [
             "Khardi"
         ],
         "lat": 19.5802161,
-        "lon": 73.3938248,
-        "normalized_name": "Khardi"
+        "lon": 73.3938248
     },
     "Kharghar": {
         "raw_names": [
@@ -467,88 +400,70 @@
             "Kharghar"
         ],
         "lat": 19.0257729,
-        "lon": 73.0591845,
-        "normalized_name": "Kharghar"
+        "lon": 73.0591845
     },
     "Kharkopar": {
         "raw_names": [
             "KHARKOPAR"
         ],
         "lat": 18.9598939,
-        "lon": 73.0141321,
-        "normalized_name": "Kharkopar"
+        "lon": 73.0141321
     },
     "Khopoli": {
         "raw_names": [
             "Khopoli"
         ],
         "lat": 18.788473,
-        "lon": 73.3460712,
-        "normalized_name": "Khopoli"
+        "lon": 73.3460712
     },
-    "King'S Circle": {
+    "King's Circle": {
         "raw_names": [
             "King's Circle"
         ],
         "lat": 19.0316822,
-        "lon": 72.8577375,
-        "normalized_name": "King'S Circle"
+        "lon": 72.8577375
     },
     "Kopar": {
         "raw_names": [
             "Kopar"
         ],
         "lat": 19.212423,
-        "lon": 73.078865,
-        "normalized_name": "Kopar"
+        "lon": 73.078865
     },
     "Kopar Khairane": {
         "raw_names": [
             "KPHN"
         ],
         "lat": 19.1032454,
-        "lon": 73.011311,
-        "normalized_name": "Kopar Khairane"
+        "lon": 73.011311
     },
     "Kurla": {
         "raw_names": [
             "Kurla"
         ],
         "lat": 19.0653066,
-        "lon": 72.8792687,
-        "normalized_name": "Kurla"
+        "lon": 72.8792687
     },
     "Lower Parel": {
         "raw_names": [
             "Lower Parel"
         ],
         "lat": 18.99528,
-        "lon": 72.83,
-        "normalized_name": "Lower Parel"
+        "lon": 72.83
     },
     "Lowjee": {
         "raw_names": [
             "Lowjee"
         ],
         "lat": 18.809571,
-        "lon": 73.3351848,
-        "normalized_name": "Lowjee"
-    },
-    "M'Bai Central": {
-        "raw_names": [
-            "M'BAI CENTRAL"
-        ],
-        "lat": 18.9695855,
-        "lon": 72.8193152,
-        "normalized_name": "M'Bai Central"
+        "lon": 73.3351848
     },
     "Mahalaxmi": {
         "raw_names": [
             "Mahalakshmi"
         ],
         "lat": 18.9825203,
-        "lon": 72.8242196,
-        "normalized_name": "Mahalaxmi"
+        "lon": 72.8242196
     },
     "Mahim": {
         "raw_names": [
@@ -556,24 +471,21 @@
             "Mahim Jn."
         ],
         "lat": 19.0406634,
-        "lon": 72.8466038,
-        "normalized_name": "Mahim"
+        "lon": 72.8466038
     },
     "Malad": {
         "raw_names": [
             "Malad"
         ],
         "lat": 19.1867193,
-        "lon": 72.8485884,
-        "normalized_name": "Malad"
+        "lon": 72.8485884
     },
     "Mankhurd": {
         "raw_names": [
             "Mankhurd"
         ],
         "lat": 19.0481,
-        "lon": 72.9317,
-        "normalized_name": "Mankhurd"
+        "lon": 72.9317
     },
     "Mansarovar": {
         "raw_names": [
@@ -581,113 +493,95 @@
             "Mansarovar"
         ],
         "lat": 19.0164338,
-        "lon": 73.0806552,
-        "normalized_name": "Mansarovar"
+        "lon": 73.0806552
     },
     "Marine Lines": {
         "raw_names": [
             "Marine Lines"
         ],
         "lat": 18.945764,
-        "lon": 72.8237193,
-        "normalized_name": "Marine Lines"
+        "lon": 72.8237193
     },
     "Masjid": {
         "raw_names": [
             "Masjid"
         ],
         "lat": 18.9522949,
-        "lon": 72.8381771,
-        "normalized_name": "Masjid"
+        "lon": 72.8381771
     },
     "Matunga": {
         "raw_names": [
             "Matunga"
         ],
         "lat": 19.0274356,
-        "lon": 72.8501467,
-        "normalized_name": "Matunga"
+        "lon": 72.8501467
     },
     "Matunga Road": {
         "raw_names": [
             "Matunga Road"
         ],
-        "lat": 19.0274356,
-        "lon": 72.8501467,
-        "normalized_name": "Matunga Road"
+        "lat": 19.0278149,
+        "lon": 72.8466813
     },
     "Mira Road": {
         "raw_names": [
             "Mira Road"
         ],
         "lat": 19.2816975,
-        "lon": 72.8560676,
-        "normalized_name": "Mira Road"
+        "lon": 72.8560676
     },
     "Mulund": {
         "raw_names": [
             "Mulund"
         ],
         "lat": 19.1721366,
-        "lon": 72.9566971,
-        "normalized_name": "Mulund"
+        "lon": 72.9566971
     },
     "Mumbai Central": {
         "raw_names": [
+            "M'BAI CENTRAL",
             "M'BAI CENTRAL (L)",
-            "M'BAI CENTRAL(L)"
+            "M'BAI CENTRAL(L)",
+            "M'Bai Central"
         ],
         "lat": 18.9695855,
-        "lon": 72.8193152,
-        "normalized_name": "Mumbai Central"
+        "lon": 72.8193152
     },
     "Mumbra": {
         "raw_names": [
             "Mumbra"
         ],
         "lat": 19.1899425,
-        "lon": 73.0230752,
-        "normalized_name": "Mumbra"
+        "lon": 73.0230752
     },
     "Nahur": {
         "raw_names": [
             "Nahur"
         ],
         "lat": 19.1546402,
-        "lon": 72.9466525,
-        "normalized_name": "Nahur"
+        "lon": 72.9466525
     },
     "Naigaon": {
         "raw_names": [
             "Naigaon"
         ],
         "lat": 19.351467,
-        "lon": 72.846343,
-        "normalized_name": "Naigaon"
+        "lon": 72.846343
     },
     "Nalla Sopara": {
         "raw_names": [
-            "Nalla Sopara"
-        ],
-        "lat": 19.4178997,
-        "lon": 72.8185693,
-        "normalized_name": "Nalla Sopara"
-    },
-    "Nallasopara": {
-        "raw_names": [
+            "Nalla Sopara",
             "Nallasopara"
         ],
         "lat": 19.4178997,
-        "lon": 72.8185693,
-        "normalized_name": "Nallasopara"
+        "lon": 72.8185693
     },
     "Neral": {
         "raw_names": [
             "Neral"
         ],
         "lat": 19.0272987,
-        "lon": 73.3185239,
-        "normalized_name": "Neral"
+        "lon": 73.3185239
     },
     "Nerul": {
         "raw_names": [
@@ -696,32 +590,28 @@
             "Nerul"
         ],
         "lat": 19.0335798,
-        "lon": 73.0181584,
-        "normalized_name": "Nerul"
+        "lon": 73.0181584
     },
     "Nhave Sheva": {
         "raw_names": [
             "NHAVE SHEVA"
         ],
         "lat": 18.898061,
-        "lon": 72.9877967,
-        "normalized_name": "Nhave Sheva"
+        "lon": 72.9877967
     },
     "Palasdhari": {
         "raw_names": [
             "Palasdhari"
         ],
         "lat": 18.884354,
-        "lon": 73.3208133,
-        "normalized_name": "Palasdhari"
+        "lon": 73.3208133
     },
     "Palghar": {
         "raw_names": [
             "PALGHAR"
         ],
         "lat": 19.6978882,
-        "lon": 72.7718888,
-        "normalized_name": "Palghar"
+        "lon": 72.7718888
     },
     "Panvel": {
         "raw_names": [
@@ -729,32 +619,28 @@
             "Panvel"
         ],
         "lat": 18.9894239,
-        "lon": 73.122695,
-        "normalized_name": "Panvel"
+        "lon": 73.122695
     },
     "Parel": {
         "raw_names": [
             "Parel"
         ],
         "lat": 19.0094817,
-        "lon": 72.8376614,
-        "normalized_name": "Parel"
+        "lon": 72.8376614
     },
     "Prabhadevi": {
         "raw_names": [
             "Prabhadevi"
         ],
         "lat": 19.0074717,
-        "lon": 72.8358965,
-        "normalized_name": "Prabhadevi"
+        "lon": 72.8358965
     },
     "Rabale": {
         "raw_names": [
             "RABE"
         ],
         "lat": 19.1366355,
-        "lon": 73.0027822,
-        "normalized_name": "Rabale"
+        "lon": 73.0027822
     },
     "Ram Mandir": {
         "raw_names": [
@@ -762,16 +648,14 @@
             "Ramnagar"
         ],
         "lat": 19.151023,
-        "lon": 72.8501467,
-        "normalized_name": "Ram Mandir"
+        "lon": 72.8501467
     },
     "Reay Road": {
         "raw_names": [
             "Reay Road"
         ],
         "lat": 18.9775506,
-        "lon": 72.8441011,
-        "normalized_name": "Reay Road"
+        "lon": 72.8441011
     },
     "Sandhurst Road": {
         "raw_names": [
@@ -779,8 +663,7 @@
             "Sandhurst road"
         ],
         "lat": 18.9609243,
-        "lon": 72.8393719,
-        "normalized_name": "Sandhurst Road"
+        "lon": 72.8393719
     },
     "Sanpada": {
         "raw_names": [
@@ -788,8 +671,7 @@
             "Sanpada"
         ],
         "lat": 19.0659856,
-        "lon": 73.0095329,
-        "normalized_name": "Sanpada"
+        "lon": 73.0095329
     },
     "Santacruz": {
         "raw_names": [
@@ -797,8 +679,7 @@
             "Santa Cruz"
         ],
         "lat": 19.081667,
-        "lon": 72.841389,
-        "normalized_name": "Santacruz"
+        "lon": 72.841389
     },
     "Saphale": {
         "raw_names": [
@@ -806,8 +687,7 @@
             "Saphale"
         ],
         "lat": 19.5771316,
-        "lon": 72.8218812,
-        "normalized_name": "Saphale"
+        "lon": 72.8218812
     },
     "Seawoods Darave": {
         "raw_names": [
@@ -817,64 +697,56 @@
             "SEAWOODS DARAVE KARAVE"
         ],
         "lat": 19.022,
-        "lon": 73.019,
-        "normalized_name": "Seawoods Darave"
+        "lon": 73.019
     },
     "Sewri": {
         "raw_names": [
             "Sewri"
         ],
         "lat": 18.9987796,
-        "lon": 72.8544218,
-        "normalized_name": "Sewri"
+        "lon": 72.8544218
     },
     "Shahad": {
         "raw_names": [
             "Shahad"
         ],
         "lat": 19.2435838,
-        "lon": 73.1580746,
-        "normalized_name": "Shahad"
+        "lon": 73.1580746
     },
     "Shelu": {
         "raw_names": [
             "Shelu"
         ],
         "lat": 19.063516,
-        "lon": 73.3179261,
-        "normalized_name": "Shelu"
+        "lon": 73.3179261
     },
     "Shematikhar": {
         "raw_names": [
             "SHEMATIKHAR"
         ],
         "lat": 18.90923,
-        "lon": 73.01582,
-        "normalized_name": "Shematikhar"
+        "lon": 73.01582
     },
     "Sion": {
         "raw_names": [
             "Sion"
         ],
         "lat": 19.0465213,
-        "lon": 72.8632834,
-        "normalized_name": "Sion"
+        "lon": 72.8632834
     },
     "Targhar": {
         "raw_names": [
             "TARGHAR"
         ],
         "lat": 18.9899416,
-        "lon": 73.0343309,
-        "normalized_name": "Targhar"
+        "lon": 73.0343309
     },
     "Thakurli": {
         "raw_names": [
             "Thakurli"
         ],
         "lat": 19.2262813,
-        "lon": 73.0980174,
-        "normalized_name": "Thakurli"
+        "lon": 73.0980174
     },
     "Thane": {
         "raw_names": [
@@ -882,40 +754,35 @@
             "Thane"
         ],
         "lat": 19.186483,
-        "lon": 72.9757664,
-        "normalized_name": "Thane"
+        "lon": 72.9757664
     },
     "Thansit": {
         "raw_names": [
             "Thansit"
         ],
         "lat": 19.5503368,
-        "lon": 73.3522404,
-        "normalized_name": "Thansit"
+        "lon": 73.3522404
     },
     "Tilaknagar": {
         "raw_names": [
             "Tilaknagar"
         ],
         "lat": 19.0657855,
-        "lon": 72.8904702,
-        "normalized_name": "Tilaknagar"
+        "lon": 72.8904702
     },
     "Titwala": {
         "raw_names": [
             "Titwala"
         ],
         "lat": 19.2963827,
-        "lon": 73.2030656,
-        "normalized_name": "Titwala"
+        "lon": 73.2030656
     },
     "Turbhe": {
         "raw_names": [
             "TUH"
         ],
         "lat": 19.0761453,
-        "lon": 73.0176991,
-        "normalized_name": "Turbhe"
+        "lon": 73.0176991
     },
     "Ulhas Nagar": {
         "raw_names": [
@@ -923,72 +790,57 @@
             "Ulhas nagar"
         ],
         "lat": 19.2178804,
-        "lon": 73.1630778,
-        "normalized_name": "Ulhas Nagar"
+        "lon": 73.1630778
     },
     "Umbermali": {
         "raw_names": [
-            "Umbermali"
-        ],
-        "lat": 19.6283669,
-        "lon": 73.4229527,
-        "normalized_name": "Umbermali"
-    },
-    "Umbermalli": {
-        "raw_names": [
+            "Umbermali",
             "Umbermalli"
         ],
         "lat": 19.6283669,
-        "lon": 73.4229527,
-        "normalized_name": "Umbermalli"
+        "lon": 73.4229527
     },
     "Umroli": {
         "raw_names": [
             "Umroli"
         ],
         "lat": 19.7557614,
-        "lon": 72.7604506,
-        "normalized_name": "Umroli"
+        "lon": 72.7604506
     },
     "Uran": {
         "raw_names": [
             "URAN"
         ],
         "lat": 18.8784186,
-        "lon": 72.9525001,
-        "normalized_name": "Uran"
+        "lon": 72.9525001
     },
     "Vadala Road": {
         "raw_names": [
             "Vadala Road"
         ],
         "lat": 19.0161355,
-        "lon": 72.8589129,
-        "normalized_name": "Vadala Road"
+        "lon": 72.8589129
     },
     "Vaiterna": {
         "raw_names": [
             "Vaiterna"
         ],
         "lat": 19.5186517,
-        "lon": 72.8499772,
-        "normalized_name": "Vaiterna"
+        "lon": 72.8499772
     },
     "Vangani": {
         "raw_names": [
             "Vangani"
         ],
         "lat": 19.0943323,
-        "lon": 73.3008946,
-        "normalized_name": "Vangani"
+        "lon": 73.3008946
     },
     "Vangaon": {
         "raw_names": [
             "Vangaon"
         ],
         "lat": 19.88299,
-        "lon": 72.76317,
-        "normalized_name": "Vangaon"
+        "lon": 72.76317
     },
     "Vasai Road": {
         "raw_names": [
@@ -996,8 +848,7 @@
             "Vasai Road"
         ],
         "lat": 19.3826676,
-        "lon": 72.8320245,
-        "normalized_name": "Vasai Road"
+        "lon": 72.8320245
     },
     "Vashi": {
         "raw_names": [
@@ -1005,63 +856,49 @@
             "Vashi"
         ],
         "lat": 19.0632912,
-        "lon": 72.998762,
-        "normalized_name": "Vashi"
+        "lon": 72.998762
     },
     "Vasind": {
         "raw_names": [
             "Vasind"
         ],
         "lat": 19.4065089,
-        "lon": 73.2674683,
-        "normalized_name": "Vasind"
+        "lon": 73.2674683
     },
     "Vidyavihar": {
         "raw_names": [
             "Vidyavihar"
         ],
         "lat": 19.0795422,
-        "lon": 72.8971169,
-        "normalized_name": "Vidyavihar"
+        "lon": 72.8971169
     },
     "Vikhroli": {
         "raw_names": [
             "Vikhroli"
         ],
         "lat": 19.1114795,
-        "lon": 72.928021,
-        "normalized_name": "Vikhroli"
+        "lon": 72.928021
     },
     "Vile Parle": {
         "raw_names": [
-            "Vile Parle"
-        ],
-        "lat": 19.0999098,
-        "lon": 72.8440038,
-        "normalized_name": "Vile Parle"
-    },
-    "Vileparle": {
-        "raw_names": [
+            "Vile Parle",
             "Vileparle"
         ],
         "lat": 19.0999098,
-        "lon": 72.8440038,
-        "normalized_name": "Vileparle"
+        "lon": 72.8440038
     },
     "Virar": {
         "raw_names": [
             "VIRAR"
         ],
         "lat": 19.4553059,
-        "lon": 72.811816,
-        "normalized_name": "Virar"
+        "lon": 72.811816
     },
     "Vithalwadi": {
         "raw_names": [
             "Vithalwadi"
         ],
         "lat": 19.2284195,
-        "lon": 73.1491076,
-        "normalized_name": "Vithalwadi"
+        "lon": 73.1491076
     }
 }

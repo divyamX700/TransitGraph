@@ -35,6 +35,13 @@ train_number,station,time
 96302,Vithalwadi,03:51
 96304,Vithalwadi,04:16
 96104,Vithalwadi,04:21
+96102,Kalyan,03:23
+96302,Kalyan,03:57
+96602,Kalyan,04:12
+96304,Kalyan,04:21
+96104,Kalyan,04:27
+97002,Kalyan,04:39
+96604,Kalyan,04:48
 96102,Thakurli,03:30
 96302,Thakurli,04:02
 96602,Thakurli,04:18
@@ -389,6 +396,16 @@ train_number,station,time
 95102,Vithalwadi,05:39
 96308,Vithalwadi,05:26
 95002,Vithalwadi,06:06
+96402,Kalyan,05:03
+96306,Kalyan,05:09
+96106,Kalyan,05:20
+95102,Kalyan,05:45
+96606,Kalyan,05:28
+96308,Kalyan,05:31
+97006,Kalyan,05:39
+97008,Kalyan,05:43
+95002,Kalyan,06:12
+96608,Kalyan,05:50
 96402,Thakurli,05:08
 96306,Thakurli,05:14
 96106,Thakurli,05:26
@@ -405,6 +422,8 @@ train_number,station,time
 96308,Dombivli,05:41
 97006,Dombivli,05:49
 97008,Dombivli,05:53
+95802,Dombivli,06:14
+97202,Dombivli,05:56
 95002,Dombivli,06:18
 96608,Dombivli,06:00
 96402,Kopar,05:14
@@ -414,6 +433,7 @@ train_number,station,time
 96308,Kopar,05:44
 97006,Kopar,05:52
 97008,Kopar,05:56
+97202,Kopar,06:00
 96608,Kopar,06:04
 96402,Diwa,05:19
 96306,Diwa,05:25
@@ -422,6 +442,7 @@ train_number,station,time
 96308,Diwa,05:49
 97006,Diwa,05:57
 97008,Diwa,06:01
+97202,Diwa,06:05
 95002,Diwa,06:23
 96608,Diwa,06:09
 96402,Mumbra,05:23
@@ -431,6 +452,7 @@ train_number,station,time
 96308,Mumbra,05:53
 97006,Mumbra,06:01
 97008,Mumbra,06:05
+97202,Mumbra,06:09
 96608,Mumbra,06:13
 96402,Kalva,05:29
 96306,Kalva,05:35
@@ -439,6 +461,7 @@ train_number,station,time
 96308,Kalva,05:59
 97006,Kalva,06:07
 97008,Kalva,06:11
+97202,Kalva,06:15
 96608,Kalva,06:19
 96402,Thane,05:34
 97312,Thane,05:37
@@ -450,6 +473,8 @@ train_number,station,time
 96308,Thane,06:04
 97006,Thane,06:12
 97008,Thane,06:16
+95802,Thane,06:30
+97202,Thane,06:20
 95002,Thane,06:34
 96608,Thane,06:24
 97316,Thane,06:28
@@ -463,6 +488,7 @@ train_number,station,time
 96308,Mulund,06:08
 97006,Mulund,06:16
 97008,Mulund,06:20
+97202,Mulund,06:24
 95002,Mulund,06:38
 96608,Mulund,06:28
 97316,Mulund,06:32
@@ -475,6 +501,7 @@ train_number,station,time
 96308,Nahur,06:11
 97006,Nahur,06:19
 97008,Nahur,06:23
+97202,Nahur,06:27
 96608,Nahur,06:31
 97316,Nahur,06:35
 96402,Bhandup,05:44
@@ -486,6 +513,8 @@ train_number,station,time
 96308,Bhandup,06:14
 97006,Bhandup,06:22
 97008,Bhandup,06:26
+95802,Bhandup,06:38
+97202,Bhandup,06:30
 96608,Bhandup,06:34
 97316,Bhandup,06:38
 96402,Kanjur marg,05:47
@@ -497,6 +526,7 @@ train_number,station,time
 96308,Kanjur marg,06:17
 97006,Kanjur marg,06:25
 97008,Kanjur marg,06:29
+97202,Kanjur marg,06:33
 96608,Kanjur marg,06:37
 97316,Kanjur marg,06:41
 96402,Vikhroli,05:50
@@ -508,6 +538,7 @@ train_number,station,time
 96308,Vikhroli,06:20
 97006,Vikhroli,06:28
 97008,Vikhroli,06:32
+97202,Vikhroli,06:36
 96608,Vikhroli,06:40
 97316,Vikhroli,06:44
 96402,Ghatkopar,05:54
@@ -520,6 +551,8 @@ train_number,station,time
 96308,Ghatkopar,06:24
 97006,Ghatkopar,06:32
 97008,Ghatkopar,06:36
+95802,Ghatkopar,06:45
+97202,Ghatkopar,06:40
 95002,Ghatkopar,06:49
 96608,Ghatkopar,06:44
 97316,Ghatkopar,06:48
@@ -532,6 +565,7 @@ train_number,station,time
 96308,Vidyavihar,06:27
 97006,Vidyavihar,06:35
 97008,Vidyavihar,06:39
+97202,Vidyavihar,06:43
 96608,Vidyavihar,06:47
 97316,Vidyavihar,06:51
 96402,Kurla,06:00
@@ -544,6 +578,8 @@ train_number,station,time
 96308,Kurla,06:30
 97006,Kurla,06:38
 97008,Kurla,06:42
+95802,Kurla,06:49
+97202,Kurla,06:46
 95002,Kurla,06:53
 96608,Kurla,06:50
 97316,Kurla,06:54
@@ -556,6 +592,7 @@ train_number,station,time
 96308,Sion,06:34
 97006,Sion,06:42
 97008,Sion,06:46
+97202,Sion,06:50
 96608,Sion,06:54
 97316,Sion,06:58
 96402,Matunga,06:07
@@ -568,6 +605,7 @@ train_number,station,time
 96308,Matunga,06:37
 97006,Matunga,06:45
 97008,Matunga,06:49
+97202,Matunga,06:53
 96608,Matunga,06:57
 97316,Matunga,07:01
 96402,Dadar,06:11
@@ -580,6 +618,8 @@ train_number,station,time
 96308,Dadar,06:41
 97006,Dadar,06:49
 97008,Dadar,06:53
+95802,Dadar,06:57
+97202,Dadar,06:57
 95002,Dadar,07:01
 96608,Dadar,07:01
 97316,Dadar,07:05
@@ -593,6 +633,7 @@ train_number,station,time
 96308,Parel,06:44
 97006,Parel,06:52
 97008,Parel,06:56
+97202,Parel,07:00
 96608,Parel,07:04
 97316,Parel,07:08
 96402,Currey road,06:17
@@ -604,6 +645,7 @@ train_number,station,time
 96308,Currey road,06:47
 97006,Currey road,06:55
 97008,Currey road,06:59
+97202,Currey road,07:03
 96608,Currey road,07:07
 97316,Currey road,07:11
 96402,Chinchpokli,06:19
@@ -615,6 +657,7 @@ train_number,station,time
 96308,Chinchpokli,06:49
 97006,Chinchpokli,06:57
 97008,Chinchpokli,07:01
+97202,Chinchpokli,07:05
 96608,Chinchpokli,07:09
 97316,Chinchpokli,07:13
 96402,Byculla,06:21
@@ -627,6 +670,8 @@ train_number,station,time
 96308,Byculla,06:51
 97006,Byculla,06:59
 97008,Byculla,07:03
+95802,Byculla,07:03
+97202,Byculla,07:07
 95002,Byculla,07:08
 96608,Byculla,07:11
 97316,Byculla,07:15
@@ -639,6 +684,7 @@ train_number,station,time
 96308,Sandhurst road,06:54
 97006,Sandhurst road,07:02
 97008,Sandhurst road,07:06
+97202,Sandhurst road,07:10
 96608,Sandhurst road,07:14
 97316,Sandhurst road,07:18
 96402,Masjid,06:27
@@ -650,6 +696,7 @@ train_number,station,time
 96308,Masjid,06:57
 97006,Masjid,07:05
 97008,Masjid,07:09
+97202,Masjid,07:13
 96608,Masjid,07:17
 97316,Masjid,07:21
 96402,CSMT,06:30
@@ -662,6 +709,8 @@ train_number,station,time
 96308,CSMT,07:00
 97006,CSMT,07:08
 97008,CSMT,07:12
+95802,CSMT,07:14
+97202,CSMT,07:16
 95002,CSMT,07:18
 96608,CSMT,07:20
 97316,CSMT,07:24
@@ -709,6 +758,17 @@ train_number,station,time
 96310,Vithalwadi,06:18
 96204,Vithalwadi,06:29
 95202,Vithalwadi,07:07
+96202,Kalyan,05:59
+97010,Kalyan,06:03
+96404,Kalyan,06:11
+95702,Kalyan,06:32
+97012,Kalyan,06:14
+95104,Kalyan,06:41
+96310,Kalyan,06:23
+96610,Kalyan,06:29
+96204,Kalyan,06:35
+97014,Kalyan,06:43
+95202,Kalyan,07:12
 96202,Thakurli,06:06
 97010,Thakurli,06:10
 96404,Thakurli,06:16
@@ -1035,6 +1095,19 @@ train_number,station,time
 96206,Vithalwadi,07:00
 95302,Vithalwadi,07:25
 95004,Vithalwadi,07:28
+97016,Kalyan,06:47
+96502,Kalyan,06:51
+97018,Kalyan,06:54
+95402,Kalyan,07:22
+95704,Kalyan,07:18
+95106,Kalyan,07:26
+96612,Kalyan,07:02
+96206,Kalyan,07:05
+95302,Kalyan,07:30
+97020,Kalyan,07:09
+95004,Kalyan,07:34
+97022,Kalyan,07:15
+95602,Kalyan,07:37
 97016,Thakurli,06:54
 96502,Thakurli,06:58
 97018,Thakurli,07:01
@@ -1319,6 +1392,17 @@ train_number,station,time
 95108,Vithalwadi,07:47
 95306,Vithalwadi,07:59
 95110,Vithalwadi,08:05
+95706,Kalyan,07:26
+97024,Kalyan,07:21
+95304,Kalyan,07:49
+95108,Kalyan,07:53
+95708,Kalyan,07:42
+97026,Kalyan,07:34
+95306,Kalyan,08:04
+95502,Kalyan,08:07
+95110,Kalyan,08:10
+96504,Kalyan,07:47
+97028,Kalyan,07:50
 95706,Thakurli,07:32
 97024,Thakurli,07:27
 95708,Thakurli,07:48
@@ -1593,6 +1677,17 @@ train_number,station,time
 95204,Vithalwadi,08:25
 95310,Vithalwadi,08:35
 96208,Vithalwadi,08:12
+95404,Kalyan,08:14
+95308,Kalyan,08:23
+97030,Kalyan,07:57
+95710,Kalyan,08:14
+96614,Kalyan,08:01
+95204,Kalyan,08:30
+95712,Kalyan,08:33
+97032,Kalyan,08:09
+95406,Kalyan,08:36
+95310,Kalyan,08:40
+96208,Kalyan,08:17
 97030,Thakurli,08:03
 95710,Thakurli,08:20
 96614,Thakurli,08:07
@@ -1844,6 +1939,14 @@ train_number,station,time
 95112,Vithalwadi,08:39
 95312,Vithalwadi,08:57
 95206,Vithalwadi,09:01
+97034,Kalyan,08:20
+95112,Kalyan,08:46
+96616,Kalyan,08:25
+95714,Kalyan,08:54
+95716,Kalyan,08:46
+97036,Kalyan,08:36
+95312,Kalyan,09:02
+95206,Kalyan,09:06
 97034,Thakurli,08:27
 96616,Thakurli,08:31
 95716,Thakurli,08:52
@@ -2059,6 +2162,13 @@ train_number,station,time
 96210,Ulhas nagar,09:05
 95114,Vithalwadi,09:13
 96210,Vithalwadi,09:08
+95504,Kalyan,09:09
+96618,Kalyan,08:51
+95718,Kalyan,09:02
+95114,Kalyan,09:19
+97038,Kalyan,09:07
+95604,Kalyan,09:20
+96210,Kalyan,09:13
 96618,Thakurli,08:56
 95718,Thakurli,09:08
 97038,Thakurli,09:12
@@ -2339,6 +2449,16 @@ train_number,station,time
 95208,Vithalwadi,09:44
 95006,Vithalwadi,09:52
 95314,Vithalwadi,10:00
+95408,Kalyan,09:32
+97040,Kalyan,09:23
+96506,Kalyan,09:26
+95720,Kalyan,09:47
+95208,Kalyan,09:50
+95722,Kalyan,09:43
+97042,Kalyan,09:29
+95006,Kalyan,09:58
+95724,Kalyan,10:02
+95314,Kalyan,10:06
 95408,Thakurli,09:38
 97040,Thakurli,09:28
 96506,Thakurli,09:31
@@ -2574,6 +2694,16 @@ train_number,station,time
 95116,Ulhas nagar,10:29
 95316,Vithalwadi,10:23
 95116,Vithalwadi,10:32
+97044,Kalyan,09:50
+96508,Kalyan,09:55
+95316,Kalyan,10:28
+96620,Kalyan,10:09
+95116,Kalyan,10:39
+97046,Kalyan,10:15
+97048,Kalyan,10:25
+96622,Kalyan,10:36
+96510,Kalyan,10:40
+97050,Kalyan,10:43
 97044,Thakurli,09:56
 96508,Thakurli,10:00
 96620,Thakurli,10:15
@@ -2905,6 +3035,17 @@ train_number,station,time
 96212,Vithalwadi,10:42
 95118,Vithalwadi,11:30
 96312,Vithalwadi,11:11
+95606,Kalyan,11:02
+95210,Kalyan,11:05
+96212,Kalyan,10:47
+97052,Kalyan,10:50
+97054,Kalyan,11:02
+95726,Kalyan,11:22
+97056,Kalyan,11:10
+95410,Kalyan,11:31
+95118,Kalyan,11:36
+96624,Kalyan,11:15
+96312,Kalyan,11:19
 96212,Thakurli,10:53
 97052,Thakurli,10:57
 97054,Thakurli,11:08
@@ -3167,6 +3308,18 @@ train_number,station,time
 96314,Vithalwadi,11:25
 95120,Vithalwadi,12:05
 96216,Vithalwadi,11:41
+97058,Kalyan,11:22
+95728,Kalyan,11:46
+95318,Kalyan,11:52
+96214,Kalyan,11:25
+96314,Kalyan,11:31
+96626,Kalyan,11:35
+97060,Kalyan,11:42
+95120,Kalyan,12:11
+96216,Kalyan,11:47
+97062,Kalyan,11:50
+95412,Kalyan,12:22
+96512,Kalyan,11:54
 97058,Thakurli,11:29
 96214,Thakurli,11:32
 96314,Thakurli,11:38
@@ -3482,6 +3635,18 @@ train_number,station,time
 95214,Vithalwadi,12:43
 95122,Vithalwadi,12:46
 96318,Vithalwadi,12:27
+96218,Kalyan,12:01
+97064,Kalyan,12:05
+96628,Kalyan,12:10
+95212,Kalyan,12:37
+96316,Kalyan,12:16
+96220,Kalyan,12:20
+97066,Kalyan,12:24
+95214,Kalyan,12:48
+95122,Kalyan,12:52
+96318,Kalyan,12:32
+96630,Kalyan,12:37
+97068,Kalyan,12:40
 96218,Thakurli,12:08
 97064,Thakurli,12:12
 96628,Thakurli,12:16
@@ -3789,6 +3954,18 @@ train_number,station,time
 96320,Vithalwadi,12:58
 95216,Vithalwadi,13:38
 95126,Vithalwadi,13:47
+95124,Kalyan,13:16
+97070,Kalyan,12:53
+96632,Kalyan,13:00
+96320,Kalyan,13:04
+97072,Kalyan,13:09
+95414,Kalyan,13:32
+96634,Kalyan,13:14
+97074,Kalyan,13:19
+95730,Kalyan,13:36
+95216,Kalyan,13:44
+95126,Kalyan,13:53
+97076,Kalyan,13:28
 97070,Thakurli,12:59
 96632,Thakurli,13:06
 96320,Thakurli,13:10
@@ -4063,6 +4240,18 @@ train_number,station,time
 96322,Vithalwadi,13:43
 95220,Vithalwadi,14:26
 95320,Vithalwadi,14:32
+96636,Kalyan,13:35
+95732,Kalyan,14:02
+97078,Kalyan,13:43
+95218,Kalyan,14:09
+96322,Kalyan,13:48
+96514,Kalyan,13:52
+97080,Kalyan,13:55
+97082,Kalyan,14:04
+95220,Kalyan,14:31
+96638,Kalyan,14:08
+95320,Kalyan,14:37
+97084,Kalyan,14:11
 96636,Thakurli,13:41
 97078,Thakurli,13:49
 96322,Thakurli,13:54
@@ -4383,6 +4572,15 @@ train_number,station,time
 95128,Vithalwadi,14:41
 95322,Vithalwadi,14:53
 95008,Vithalwadi,15:00
+96324,Kalyan,14:15
+96108,Kalyan,14:20
+95416,Kalyan,14:44
+95128,Kalyan,14:47
+97086,Kalyan,14:25
+97088,Kalyan,14:33
+95322,Kalyan,14:58
+97090,Kalyan,14:41
+95008,Kalyan,15:06
 96324,Thakurli,14:23
 96108,Thakurli,14:27
 97086,Thakurli,14:32
@@ -4629,6 +4827,16 @@ train_number,station,time
 95222,Vithalwadi,15:12
 95324,Vithalwadi,15:20
 95224,Vithalwadi,15:47
+95222,Kalyan,15:17
+96640,Kalyan,15:00
+95324,Kalyan,15:25
+97092,Kalyan,15:10
+97094,Kalyan,15:14
+95506,Kalyan,15:40
+96642,Kalyan,15:24
+95224,Kalyan,15:52
+95418,Kalyan,15:56
+97096,Kalyan,15:30
 96640,Thakurli,15:05
 97092,Thakurli,15:16
 97094,Thakurli,15:20
@@ -4891,6 +5099,17 @@ train_number,station,time
 95130,Ulhas nagar,16:09
 95226,Vithalwadi,16:02
 95130,Vithalwadi,16:12
+95226,Kalyan,16:07
+97098,Kalyan,15:37
+97100,Kalyan,15:47
+96644,Kalyan,15:51
+95608,Kalyan,16:15
+95130,Kalyan,16:18
+95508,Kalyan,16:21
+97102,Kalyan,15:58
+97104,Kalyan,16:04
+97106,Kalyan,16:10
+95734,Kalyan,16:28
 97098,Thakurli,15:43
 97100,Thakurli,15:53
 96644,Thakurli,15:57
@@ -5136,6 +5355,15 @@ train_number,station,time
 95228,Vithalwadi,16:33
 95132,Vithalwadi,16:46
 95328,Vithalwadi,16:53
+95326,Kalyan,16:34
+97108,Kalyan,16:17
+95228,Kalyan,16:38
+95736,Kalyan,16:42
+95420,Kalyan,16:48
+97110,Kalyan,16:24
+95132,Kalyan,16:54
+95328,Kalyan,16:58
+95610,Kalyan,17:03
 97108,Thakurli,16:23
 97110,Thakurli,16:30
 95326,Dombivli,16:40
@@ -5366,6 +5594,14 @@ train_number,station,time
 95232,Ulhas nagar,17:12
 95230,Vithalwadi,17:03
 95232,Vithalwadi,17:15
+95230,Kalyan,17:09
+97112,Kalyan,16:38
+95510,Kalyan,17:12
+95232,Kalyan,17:20
+97114,Kalyan,16:57
+95612,Kalyan,17:23
+95738,Kalyan,17:27
+95422,Kalyan,17:30
 97112,Thakurli,16:44
 97114,Thakurli,17:02
 95230,Dombivli,17:15
@@ -5600,6 +5836,15 @@ train_number,station,time
 95330,Vithalwadi,17:40
 95010,Vithalwadi,17:44
 95332,Vithalwadi,17:58
+95234,Kalyan,17:36
+95740,Kalyan,17:39
+97116,Kalyan,17:13
+95330,Kalyan,17:45
+95010,Kalyan,17:50
+95614,Kalyan,17:53
+97118,Kalyan,17:27
+97120,Kalyan,17:37
+95332,Kalyan,18:05
 97116,Thakurli,17:19
 97118,Thakurli,17:34
 97120,Thakurli,17:44
@@ -5859,6 +6104,15 @@ train_number,station,time
 95334,Vithalwadi,18:11
 95134,Vithalwadi,18:19
 95236,Vithalwadi,18:32
+95424,Kalyan,18:14
+95334,Kalyan,18:18
+95742,Kalyan,18:22
+95134,Kalyan,18:25
+97122,Kalyan,18:00
+95512,Kalyan,18:28
+97124,Kalyan,18:08
+95744,Kalyan,18:25
+95236,Kalyan,18:37
 97122,Thakurli,18:07
 97124,Thakurli,18:14
 95744,Thakurli,18:31
@@ -6086,6 +6340,16 @@ train_number,station,time
 95136,Vithalwadi,18:43
 95238,Vithalwadi,19:10
 95012,Vithalwadi,19:14
+97126,Kalyan,18:21
+95336,Kalyan,18:43
+95616,Kalyan,18:46
+95136,Kalyan,18:49
+97128,Kalyan,18:34
+97130,Kalyan,18:40
+97132,Kalyan,18:48
+95238,Kalyan,19:15
+97134,Kalyan,18:51
+95012,Kalyan,19:21
 97126,Thakurli,18:27
 97128,Thakurli,18:40
 97130,Thakurli,18:46
@@ -6343,6 +6607,17 @@ train_number,station,time
 95138,Ulhas nagar,19:23
 95338,Vithalwadi,19:20
 95138,Vithalwadi,19:26
+96516,Kalyan,18:54
+97136,Kalyan,18:58
+95338,Kalyan,19:25
+97138,Kalyan,19:02
+95426,Kalyan,19:29
+95138,Kalyan,19:32
+97140,Kalyan,19:08
+97142,Kalyan,19:12
+96646,Kalyan,19:17
+95514,Kalyan,19:47
+97144,Kalyan,19:26
 96516,Thakurli,19:00
 97136,Thakurli,19:04
 97138,Thakurli,19:08
@@ -6614,6 +6889,18 @@ train_number,station,time
 95340,Vithalwadi,20:13
 95242,Vithalwadi,20:18
 95140,Vithalwadi,20:29
+95240,Kalyan,19:55
+97146,Kalyan,19:38
+97148,Kalyan,19:45
+97150,Kalyan,19:48
+96326,Kalyan,19:51
+95340,Kalyan,20:19
+97152,Kalyan,19:56
+95242,Kalyan,20:23
+96648,Kalyan,20:03
+97154,Kalyan,20:10
+95140,Kalyan,20:35
+95746,Kalyan,20:41
 97146,Thakurli,19:44
 97148,Thakurli,19:51
 97150,Thakurli,19:54
@@ -6893,6 +7180,18 @@ train_number,station,time
 95244,Vithalwadi,21:01
 96222,Vithalwadi,20:37
 95344,Vithalwadi,21:15
+96518,Kalyan,20:21
+97156,Kalyan,20:29
+96650,Kalyan,20:34
+95342,Kalyan,21:04
+97158,Kalyan,20:38
+97160,Kalyan,20:43
+95244,Kalyan,21:08
+96222,Kalyan,20:46
+95516,Kalyan,21:12
+97162,Kalyan,20:50
+95344,Kalyan,21:21
+96652,Kalyan,20:55
 96518,Thakurli,20:27
 97156,Thakurli,20:35
 96650,Thakurli,20:40
@@ -7237,6 +7536,17 @@ train_number,station,time
 95246,Vithalwadi,21:52
 95144,Vithalwadi,21:56
 96328,Vithalwadi,21:43
+97164,Kalyan,21:04
+95428,Kalyan,21:26
+95142,Kalyan,21:33
+96654,Kalyan,21:16
+97166,Kalyan,21:19
+96224,Kalyan,21:27
+95246,Kalyan,21:57
+95144,Kalyan,22:02
+97168,Kalyan,21:36
+96656,Kalyan,21:40
+96328,Kalyan,21:48
 97164,Thakurli,21:10
 96654,Thakurli,21:21
 97166,Thakurli,21:25
@@ -7516,6 +7826,17 @@ train_number,station,time
 95146,Vithalwadi,22:49
 96332,Vithalwadi,22:23
 96110,Vithalwadi,22:29
+95248,Kalyan,22:21
+97170,Kalyan,21:59
+97172,Kalyan,22:06
+95430,Kalyan,22:33
+96330,Kalyan,22:14
+96658,Kalyan,22:22
+97174,Kalyan,22:26
+95146,Kalyan,22:54
+96332,Kalyan,22:29
+96110,Kalyan,22:34
+96660,Kalyan,22:42
 97170,Thakurli,22:06
 97172,Thakurli,22:12
 96330,Thakurli,22:20
@@ -7846,6 +8167,19 @@ train_number,station,time
 96228,Vithalwadi,23:20
 96020,Vithalwadi,23:28
 96230,Vithalwadi,23:44
+96520,Kalyan,22:52
+97176,Kalyan,22:56
+95748,Kalyan,23:15
+96226,Kalyan,23:00
+97178,Kalyan,23:04
+96406,Kalyan,23:15
+97180,Kalyan,23:19
+96228,Kalyan,23:26
+96662,Kalyan,23:30
+96020,Kalyan,23:36
+96522,Kalyan,23:43
+97182,Kalyan,23:47
+96230,Kalyan,23:52
 96520,Thakurli,22:57
 97176,Thakurli,23:01
 96226,Thakurli,23:06

@@ -1,0 +1,238 @@
+{
+ "ANDHERI|M1_ANDHERI": {
+  "meters": 440,
+  "walk_minutes": 5.4
+ },
+ "BORIVALI|M7_DEVIPADA": {
+  "meters": 1351,
+  "walk_minutes": 16.8
+ },
+ "BORIVALI|M7_RASHTRIYA_UDYAN": {
+  "meters": 1165,
+  "walk_minutes": 14.2
+ },
+ "BYCULLA|M3_MAHALAXMI": {
+  "meters": 1227,
+  "walk_minutes": 14.9
+ },
+ "CBD_BELAPUR|NM1_CBD_BELAPUR": {
+  "meters": 7,
+  "walk_minutes": 0.1
+ },
+ "CBD_BELAPUR|NM1_RBI_COLONY": {
+  "meters": 2108,
+  "walk_minutes": 25.5
+ },
+ "CHARNI_ROAD|M3_GIRGAON": {
+  "meters": 663,
+  "walk_minutes": 8.0
+ },
+ "CHINCHPOKLI|LOWER_PAREL": {
+  "meters": 1187,
+  "walk_minutes": 14.6
+ },
+ "CHUNABHATTI|SION": {
+  "meters": 2790,
+  "walk_minutes": 34.0
+ },
+ "CHURCHGATE|M3_CHHATRAPATI_SHIVAJI_MAHARAJ_TERMINUS": {
+  "meters": 1258,
+  "walk_minutes": 16.1
+ },
+ "CHURCHGATE|M3_CHURCHGATE": {
+  "meters": 463,
+  "walk_minutes": 6.0
+ },
+ "CHURCHGATE|M3_HUTATMA_CHOWK": {
+  "meters": 872,
+  "walk_minutes": 11.0
+ },
+ "CSMT|M3_CHHATRAPATI_SHIVAJI_MAHARAJ_TERMINUS": {
+  "meters": 1195,
+  "walk_minutes": 16.1
+ },
+ "CSMT|M3_HUTATMA_CHOWK": {
+  "meters": 762,
+  "walk_minutes": 10.1
+ },
+ "CURREY_ROAD|LOWER_PAREL": {
+  "meters": 446,
+  "walk_minutes": 5.7
+ },
+ "DADAR|M3_DADAR": {
+  "meters": 837,
+  "walk_minutes": 10.3
+ },
+ "DAHISAR|M2A_DAHISAR_EAST": {
+  "meters": 1176,
+  "walk_minutes": 14.5
+ },
+ "DAHISAR|M7_DAHISAR_EAST": {
+  "meters": 1048,
+  "walk_minutes": 12.8
+ },
+ "DAHISAR|M7_OVARIPADA": {
+  "meters": 1195,
+  "walk_minutes": 14.7
+ },
+ "GHATKOPAR|M1_GHATKOPAR": {
+  "meters": 131,
+  "walk_minutes": 1.7
+ },
+ "GHATKOPAR|M1_JAGRUTI_NAGAR": {
+  "meters": 1235,
+  "walk_minutes": 16.5
+ },
+ "GRANT_ROAD|M3_GRANT_ROAD": {
+  "meters": 0,
+  "walk_minutes": 0.0
+ },
+ "GRANT_ROAD|M3_JAGANNATH_SHANKAR_SHETH_METRO": {
+  "meters": 831,
+  "walk_minutes": 10.0
+ },
+ "GURU_TEGH_BAHADUR_NAGAR|SION": {
+  "meters": 1739,
+  "walk_minutes": 21.3
+ },
+ "JOGESHWARI|M7_JOGESHWARI_EAST": {
+  "meters": 1173,
+  "walk_minutes": 14.6
+ },
+ "KHARGHAR|NM1_BELPADA": {
+  "meters": 586,
+  "walk_minutes": 7.0
+ },
+ "KHARGHAR|NM1_UTSAV_CHOWK": {
+  "meters": 920,
+  "walk_minutes": 11.5
+ },
+ "KING'S_CIRCLE|MATUNGA": {
+  "meters": 1274,
+  "walk_minutes": 15.3
+ },
+ "M1_AIRPORT_ROAD|M3_AIRPORT_T2": {
+  "meters": 969,
+  "walk_minutes": 11.2
+ },
+ "M1_AIRPORT_ROAD|M3_CSMIA_INTERNATIONAL_T2": {
+  "meters": 969,
+  "walk_minutes": 11.2
+ },
+ "M1_AIRPORT_ROAD|M3_MAROL_NAKA": {
+  "meters": 468,
+  "walk_minutes": 5.4
+ },
+ "M1_AIRPORT_ROAD|M3_MIDC_ANDHERI": {
+  "meters": 1445,
+  "walk_minutes": 19.0
+ },
+ "M1_ANDHERI|M7_GUNDAVALI": {
+  "meters": 957,
+  "walk_minutes": 11.7
+ },
+ "M1_AZAD_NAGAR|M2A_ANDHERI_WEST": {
+  "meters": 891,
+  "walk_minutes": 10.6
+ },
+ "M1_CHAKALA_J_B_NAGAR|M3_MIDC_ANDHERI": {
+  "meters": 1281,
+  "walk_minutes": 17.1
+ },
+ "M1_D_N_NAGAR|M2A_ANDHERI_WEST": {
+  "meters": 155,
+  "walk_minutes": 1.9
+ },
+ "M1_MAROL_NAKA|M3_AIRPORT_T2": {
+  "meters": 1300,
+  "walk_minutes": 15.4
+ },
+ "M1_MAROL_NAKA|M3_CSMIA_INTERNATIONAL_T2": {
+  "meters": 1300,
+  "walk_minutes": 15.4
+ },
+ "M1_MAROL_NAKA|M3_MAROL_NAKA": {
+  "meters": 202,
+  "walk_minutes": 2.4
+ },
+ "M1_WESTERN_EXPRESS_HIGHWAY|M7_GUNDAVALI": {
+  "meters": 480,
+  "walk_minutes": 5.8
+ },
+ "M2A_ANAND_NAGAR|M7_DAHISAR_EAST": {
+  "meters": 1182,
+  "walk_minutes": 15.0
+ },
+ "M2A_ANAND_NAGAR|M7_PANDURANG_WADI": {
+  "meters": 1023,
+  "walk_minutes": 12.6
+ },
+ "M2A_DAHISAR_EAST|M7_DAHISAR_EAST": {
+  "meters": 127,
+  "walk_minutes": 1.5
+ },
+ "M2B_MANDALE|MANKHURD": {
+  "meters": 3133,
+  "walk_minutes": 38.7
+ },
+ "M2B_MANKHURD|MANKHURD": {
+  "meters": 2218,
+  "walk_minutes": 27.2
+ },
+ "M3_DADAR|MATUNGA_ROAD": {
+  "meters": 1158,
+  "walk_minutes": 13.5
+ },
+ "M3_DHARAVI|MAHIM": {
+  "meters": 1642,
+  "walk_minutes": 19.8
+ },
+ "M3_GIRGAON|MARINE_LINES": {
+  "meters": 1051,
+  "walk_minutes": 12.3
+ },
+ "M3_GRANT_ROAD|MUMBAI_CENTRAL": {
+  "meters": 1002,
+  "walk_minutes": 12.2
+ },
+ "M3_JAGANNATH_SHANKAR_SHETH_METRO|MUMBAI_CENTRAL": {
+  "meters": 304,
+  "walk_minutes": 3.9
+ },
+ "M3_KALBADEVI|MARINE_LINES": {
+  "meters": 654,
+  "walk_minutes": 7.4
+ },
+ "M3_MAHALAXMI|MAHALAXMI": {
+  "meters": 648,
+  "walk_minutes": 7.7
+ },
+ "M3_SANTACRUZ|SANTACRUZ": {
+  "meters": 914,
+  "walk_minutes": 11.3
+ },
+ "M3_SCIENCE_MUSEUM|MAHALAXMI": {
+  "meters": 1103,
+  "walk_minutes": 13.3
+ },
+ "M3_SHITALADEVI_MANDIR|MAHIM": {
+  "meters": 679,
+  "walk_minutes": 8.2
+ },
+ "M3_SHITALA_DEVI_MANDIR|MAHIM": {
+  "meters": 679,
+  "walk_minutes": 8.2
+ },
+ "M7_GOREGAON_EAST|RAM_MANDIR": {
+  "meters": 2193,
+  "walk_minutes": 25.7
+ },
+ "MATUNGA|MATUNGA_ROAD": {
+  "meters": 1168,
+  "walk_minutes": 13.9
+ },
+ "PAREL|PRABHADEVI": {
+  "meters": 483,
+  "walk_minutes": 5.7
+ }
+}

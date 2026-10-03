@@ -1,0 +1,313 @@
+{
+  "_comment": "Curated definition of the metro / monorail lines. Stations and track geometry come from data/metro/osm (OpenStreetMap, see scripts/fetch_metro_osm.py); everything else (service hours, headways, journey times) comes from the sources named per line. Metro lines publish first/last trains and headways, not a timetable, so scripts/metro.py generates a synthetic one from them. 'active': false keeps a line out of the routing data (see status).",
+  "lines": [
+    {
+      "id": "M1",
+      "name": "Metro Line 1 (Blue)",
+      "short_name": "1",
+      "color": "#1E68BF",
+      "mode": "METRO",
+      "agency": "MMOPL",
+      "active": true,
+      "parts": [
+        {
+          "osm": "M1"
+        }
+      ],
+      "end_to_end_minutes": 21,
+      "directions": [
+        {
+          "from": "Versova",
+          "first": "05:30",
+          "last": "23:25"
+        },
+        {
+          "from": "Ghatkopar",
+          "first": "05:30",
+          "last": "23:50"
+        }
+      ],
+      "headway_minutes": [
+        [
+          "05:00",
+          "08:00",
+          6
+        ],
+        [
+          "08:00",
+          "11:00",
+          3.5
+        ],
+        [
+          "11:00",
+          "17:00",
+          6
+        ],
+        [
+          "17:00",
+          "21:00",
+          3.5
+        ],
+        [
+          "21:00",
+          "24:00",
+          6
+        ]
+      ],
+      "sources": [
+        "mumbaimetroroute.com /timetable: first 05:30, last 23:25 (Versova) / 23:50 (Ghatkopar); peak 08:00-11:00 and 17:00-21:00 every 3-4 min, other weekday hours 5-7 min",
+        "Wikipedia 'Blue Line (Mumbai Metro)': 21 min Versova-Ghatkopar (the site's own 40-45 min is not used)"
+      ]
+    },
+    {
+      "id": "M2A",
+      "name": "Metro Line 2A (Yellow)",
+      "short_name": "2A",
+      "color": "#E8B100",
+      "mode": "METRO",
+      "agency": "MMMOCL",
+      "active": true,
+      "parts": [
+        {
+          "osm": "M2A"
+        }
+      ],
+      "end_to_end_minutes": 40,
+      "directions": [
+        {
+          "from": "Dahisar (East)",
+          "first": "06:00",
+          "last": "22:35"
+        },
+        {
+          "from": "Andheri (West)",
+          "first": "05:55",
+          "last": "23:00"
+        }
+      ],
+      "headway_minutes": [
+        [
+          "05:00",
+          "07:30",
+          11
+        ],
+        [
+          "07:30",
+          "11:00",
+          6
+        ],
+        [
+          "11:00",
+          "17:00",
+          11
+        ],
+        [
+          "17:00",
+          "21:00",
+          6
+        ],
+        [
+          "21:00",
+          "24:00",
+          11
+        ]
+      ],
+      "sources": [
+        "mmmocl.co.in/train-time-table (official, retrieved 2026-10-03): first/last trains",
+        "mumbaimetroroute.com /metro-lines/line-2a: 17 stations, peak 5-7 min, off-peak 10-12 min; station names (Kandarpada = OSM 'Rushi Sankul')",
+        "40 min end to end (news); peak windows assumed 07:30-11:00 and 17:00-21:00"
+      ],
+      "rename": {
+        "Rushi Sankul": "Kandarpada"
+      }
+    },
+    {
+      "id": "M7",
+      "name": "Metro Lines 7 + 9 (Red)",
+      "short_name": "7",
+      "color": "#D9342B",
+      "mode": "METRO",
+      "agency": "MMMOCL",
+      "active": true,
+      "parts": [
+        {
+          "osm": "M7",
+          "reverse": true
+        },
+        {
+          "osm": "M9",
+          "skip": 1
+        }
+      ],
+      "avg_speed_kmh": 28.3,
+      "directions": [
+        {
+          "from": "Gundavali",
+          "first": "06:00",
+          "last": "23:00"
+        },
+        {
+          "from": "Kashigaon",
+          "first": "05:50",
+          "last": "22:30"
+        }
+      ],
+      "headway_minutes": [
+        [
+          "05:00",
+          "07:30",
+          11
+        ],
+        [
+          "07:30",
+          "11:00",
+          7.5
+        ],
+        [
+          "11:00",
+          "17:00",
+          11
+        ],
+        [
+          "17:00",
+          "21:00",
+          7.5
+        ],
+        [
+          "21:00",
+          "24:00",
+          11
+        ]
+      ],
+      "sources": [
+        "mmmocl.co.in/train-time-table (official, 2026-10-03): Gundavali-Kashigaon first 06:00 / last 23:00, Kashigaon-Gundavali first 05:50 / last 22:30. Line 7 and Line 9 phase 1 run as one integrated service",
+        "mumbaimetroroute.com /metro-lines/line-7 and line-9: Line 7 peak 7-8 min, off-peak 10-12 min; Line 9 peak 6 min, off-peak 8-10 min (Line 7's values are used for the joined line); 'Poisar' = OSM 'Mahindra & Mahindra'",
+        "35 min for Line 7's 16.5 km (news) = 28.3 km/h, applied to the whole line"
+      ],
+      "rename": {
+        "Mahindra & Mahindra": "Poisar"
+      }
+    },
+    {
+      "id": "M3",
+      "name": "Metro Line 3 (Aqua)",
+      "short_name": "3",
+      "color": "#14A8A0",
+      "mode": "METRO",
+      "agency": "MMRC",
+      "active": true,
+      "parts": [
+        {
+          "osm": "M3"
+        }
+      ],
+      "end_to_end_minutes": 54,
+      "directions": [
+        {
+          "from": "Aarey JVLR",
+          "first": "05:55",
+          "last": "22:30"
+        },
+        {
+          "from": "Cuffe Parade",
+          "first": "05:55",
+          "last": "22:30"
+        }
+      ],
+      "headway_minutes": [
+        [
+          "05:00",
+          "08:00",
+          8
+        ],
+        [
+          "08:00",
+          "10:00",
+          3.5
+        ],
+        [
+          "10:00",
+          "17:00",
+          8
+        ],
+        [
+          "17:00",
+          "21:00",
+          3.5
+        ],
+        [
+          "21:00",
+          "24:00",
+          8
+        ]
+      ],
+      "sources": [
+        "MMRCL timetable as reported (freepressjournal, wionews): first 05:55 both ends, last departure 22:30; Mon-Sat peak (08:00-10:00, 17:00-21:00) 3.5 min, off-peak 8 min",
+        "54 min end to end (freepressjournal). Sunday (8 min all day) is not modelled",
+        "mumbaimetroroute.com /metro-lines/line-3: 27 stations, interchanges with Marol Naka (Line 1) and Santacruz, Dadar, Mahalaxmi, Mumbai Central, Grant Road, CSMT, Churchgate. Its frequency figures conflict (3-4 min on the overview, 7-8 min on the line page), so the operator's 3.5 / 8 min is kept"
+      ],
+      "rename": {
+        "Siddhivinayak Temple": "Siddhivinayak",
+        "Shitala Devi Mandir": "Shitaladevi Mandir",
+        "CSMIA International T2": "Airport T2",
+        "CSMIA Domestic": "Airport T1"
+      }
+    },
+    {
+      "id": "M2B",
+      "name": "Metro Line 2B (Yellow, phase 1)",
+      "short_name": "2B",
+      "color": "#E8B100",
+      "mode": "METRO",
+      "agency": "MMMOCL",
+      "active": true,
+      "parts": [
+        {
+          "osm": "M2B",
+          "skip": 1
+        }
+      ],
+      "avg_speed_kmh": 28,
+      "directions": [
+        {
+          "from": "Diamond Garden",
+          "first": "06:00",
+          "last": "22:30"
+        },
+        {
+          "from": "Mandale",
+          "first": "06:00",
+          "last": "22:15"
+        }
+      ],
+      "headway_minutes": [
+        [
+          "05:00",
+          "24:00",
+          9.5
+        ]
+      ],
+      "sources": [
+        "mmmocl.co.in/train-time-table (official, 2026-10-03): 06:00 first, last 22:30 / 22:15",
+        "mumbaimetroroute.com /metro-lines/line-2b: 5 stations Diamond Garden, Shivaji Chowk, BSNL Metro, Mankhurd, Mandale; 9-10 min; interchange with the Harbour line at Mankhurd. Chembur station (first OSM stop) is not open, so it is skipped",
+        "journey time estimated at 28 km/h, the speed of Lines 2A/7"
+      ],
+      "rename": {
+        "Deonar": "BSNL Metro"
+      }
+    }
+  ],
+  "inactive": [
+    {
+      "id": "MONO",
+      "name": "Mumbai Monorail",
+      "status": "Service suspended since 2025-09-20 for new rolling stock and CBTC signalling; trial runs ongoing, restart announced repeatedly but not confirmed as of 2026-10-03 (freepressjournal 2026-08-15, Wikipedia). Add it as an 'active' line with the 17 stations Chembur ... Sant Gadge Maharaj Chowk (Jacob Circle), 15 min headway, 06:00-22:07, once passenger service resumes.",
+      "line_4": "Metro Line 4 / 4A (Wadala-Kasarvadavali) has no passenger service yet; partial Gaimukh-Cadbury Junction opening is targeted for November 2026."
+    },
+    {
+      "id": "NM1",
+      "name": "Navi Mumbai Metro Line 1 (CBD Belapur - Pendhar)",
+      "status": "Switched off on 2026-10-03: not listed on mumbaimetroroute.com, and its service is unconfirmed. Wikipedia and news sites say it opened 2023-11-17 (11 stations, 06:00-22:00, every 10-15 min). Data is ready: data/metro/osm/NM1.json; to enable, move this entry back to 'lines' with parts [{osm: NM1}], agency CIDCO, avg_speed_kmh 32, directions CBD Belapur / Pendhar 06:00-21:45, headway 15 min (10 in the peaks)."
+    }
+  ]
+}

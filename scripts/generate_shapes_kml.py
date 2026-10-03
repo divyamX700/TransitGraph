@@ -1,168 +1,161 @@
-import os
+"""shapes.txt: for every shape_id in trips.txt, route its stop sequence over the rail track
+geometry in the KML (a graph of track points) and write the resulting polyline.
+
+Stops that several lines share a name (and a pin) for, such as Dadar, sit between two sets of
+tracks, so snapping a stop to the single nearest track point puts it on the wrong line half the
+time. Each stop therefore gets one candidate track point per line (Western, Central, ...) and
+the candidates for a whole shape are chosen together to minimise the total track length.
+"""
 import csv
 import math
-import networkx as nx
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 
-BASE_DIR = r"c:\Users\Divyam Kulshrestha\Desktop\BomRouter"
-GTFS_DIR = os.path.join(BASE_DIR, "data", "gtfs")
-KML_FILE = os.path.join(BASE_DIR, "data", "extracted", "46f53a20-aebb-4096-bf33-c6d9d87afaca.kml")
+import networkx as nx
+
+import metro
+from common import EXTRACTED, GTFS
+
+KML_FILE = EXTRACTED / "46f53a20-aebb-4096-bf33-c6d9d87afaca.kml"  # rail track geometry
+KML_NS = {"k": "http://www.opengis.net/kml/2.2"}
+SNAP_PER_LINE_M = 400    # candidate track point per line within this distance of a stop
+SNAP_ANY_M = 1000        # otherwise the nearest track point, if within this distance
+BRIDGE_GAP_M = 500       # connect separate track components closer than this
+NO_PATH = float("inf")
+
 
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371000
     phi1, phi2 = math.radians(lat1), math.radians(lat2)
     dphi = math.radians(lat2 - lat1)
     dlambda = math.radians(lon2 - lon1)
-    a = math.sin(dphi/2)**2 + math.cos(phi1)*math.cos(phi2)*math.sin(dlambda/2)**2
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
     return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
-def generate_kml_shapes():
-    print("Parsing KML track geometries...")
-    tree = ET.parse(KML_FILE)
-    root = tree.getroot()
-    ns = {'kml': 'http://www.opengis.net/kml/2.2'}
-    
-    lines = []
-    for placemark in root.findall('.//kml:Placemark', ns):
-        coords = placemark.find('.//kml:coordinates', ns)
-        if coords is not None and coords.text:
-            raw_coords = coords.text.strip().split()
-            pts = []
-            for c in raw_coords:
-                parts = c.split(',')
-                if len(parts) >= 2:
-                    lon, lat = float(parts[0]), float(parts[1])
-                    pts.append((lat, lon))
-            if pts: lines.append(pts)
-            
-    print(f"Extracted {len(lines)} track linestrings. Building Graph...")
-    
+
+def build_track_graph():
+    """Graph of track points; each node records which lines (KML placemark names) it lies on."""
     G = nx.Graph()
-    def node_id(lat, lon):
-        return (round(lat, 5), round(lon, 5))
-        
-    for pts in lines:
-        for i in range(len(pts)-1):
-            n1 = node_id(*pts[i])
-            n2 = node_id(*pts[i+1])
-            G.add_node(n1, lat=pts[i][0], lon=pts[i][1])
-            G.add_node(n2, lat=pts[i+1][0], lon=pts[i+1][1])
-            dist = haversine(pts[i][0], pts[i][1], pts[i+1][0], pts[i+1][1])
-            G.add_edge(n1, n2, weight=dist)
-            
-    # Bridge disconnected components
+    for placemark in ET.parse(KML_FILE).getroot().findall(".//k:Placemark", KML_NS):
+        coords = placemark.find(".//k:coordinates", KML_NS)
+        if coords is None or not coords.text:
+            continue
+        line = placemark.find("k:name", KML_NS).text
+        pts = [tuple(map(float, c.split(",")[:2][::-1])) for c in coords.text.split()]  # (lat, lon)
+        nodes = [(round(lat, 5), round(lon, 5)) for lat, lon in pts]
+        for node, (lat, lon) in zip(nodes, pts):
+            G.add_node(node, lat=lat, lon=lon)
+            G.nodes[node].setdefault("lines", set()).add(line)
+        for (n1, p1), (n2, p2) in zip(zip(nodes, pts), zip(nodes[1:], pts[1:])):
+            G.add_edge(n1, n2, weight=haversine(*p1, *p2))
+
     components = list(nx.connected_components(G))
-    if len(components) > 1:
-        print(f"Graph has {len(components)} disconnected components. Bridging gaps...")
-        for i in range(len(components)):
-            for j in range(i+1, len(components)):
-                c1_nodes = list(components[i])
-                c2_nodes = list(components[j])
-                min_dist = float('inf')
-                best_pair = None
-                for n1 in c1_nodes:
-                    for n2 in c2_nodes:
-                        d = haversine(n1[0], n1[1], n2[0], n2[1])
-                        if d < min_dist:
-                            min_dist = d
-                            best_pair = (n1, n2)
-                if best_pair and min_dist < 500:
-                    G.add_edge(best_pair[0], best_pair[1], weight=min_dist)
-                    
-    # Only keep largest connected component just to be safe
-    largest_cc = max(nx.connected_components(G), key=len)
-    G = G.subgraph(largest_cc).copy()
-    print(f"Graph fully connected with {G.number_of_nodes()} track nodes.")
-    
-    stops = {}
-    with open(os.path.join(GTFS_DIR, "stops.txt"), "r", encoding="utf-8") as f:
-        for row in csv.DictReader(f):
-            stops[row["stop_id"]] = (float(row["stop_lat"]), float(row["stop_lon"]))
-            
-    stop_to_node = {}
-    graph_nodes = list(G.nodes(data=True))
-    for stop_id, (lat, lon) in stops.items():
-        min_dist = float('inf')
-        best_node = None
-        for n, data in graph_nodes:
-            d = haversine(lat, lon, data['lat'], data['lon'])
-            if d < min_dist:
-                min_dist = d
-                best_node = n
-        if min_dist > 1000:
-            stop_to_node[stop_id] = None
-        else:
-            stop_to_node[stop_id] = best_node
-        
-    print("Stations snapped to KML tracks.")
-    
-    shape_to_stops = {}
-    trip_to_shape = {}
-    with open(os.path.join(GTFS_DIR, "trips.txt"), "r") as f:
-        for row in csv.DictReader(f):
-            trip_to_shape[row["trip_id"]] = row["shape_id"]
-            
-    trip_stops = defaultdict(list)
-    with open(os.path.join(GTFS_DIR, "stop_times.txt"), "r") as f:
-        for row in csv.DictReader(f):
-            trip_stops[row["trip_id"]].append((int(row["stop_sequence"]), row["stop_id"]))
-            
-    for trip_id, stop_list in trip_stops.items():
-        stop_list.sort(key=lambda x: x[0])
-        shape_id = trip_to_shape[trip_id]
-        if shape_id not in shape_to_stops:
-            shape_to_stops[shape_id] = [s[1] for s in stop_list]
-            
-    print(f"Routing {len(shape_to_stops)} unique shapes over KML tracks...")
-    shapes_rows = []
-    
-    for shape_id, stp_seq in shape_to_stops.items():
-        pt_seq = 1
-        for i in range(len(stp_seq)-1):
-            s1 = stp_seq[i]
-            s2 = stp_seq[i+1]
-            n1 = stop_to_node[s1]
-            n2 = stop_to_node[s2]
-            
-            if n1 is not None and n2 is not None:
-                try:
-                    path = nx.shortest_path(G, n1, n2, weight='weight')
-                    if pt_seq > 1: path = path[1:] # avoid duplicate node at joint
-                    for node_id in path:
-                        lat, lon = G.nodes[node_id]['lat'], G.nodes[node_id]['lon']
-                        shapes_rows.append([shape_id, lat, lon, pt_seq])
-                        pt_seq += 1
-                except nx.NetworkXNoPath:
-                    lat1, lon1 = G.nodes[n1]['lat'], G.nodes[n1]['lon']
-                    lat2, lon2 = G.nodes[n2]['lat'], G.nodes[n2]['lon']
-                    if pt_seq == 1:
-                        shapes_rows.append([shape_id, lat1, lon1, pt_seq])
-                        pt_seq += 1
-                    shapes_rows.append([shape_id, lat2, lon2, pt_seq])
-                    pt_seq += 1
-            else:
-                # Fallback to straight line for outlier stations (e.g. Dahanu, Kasara)
-                if pt_seq == 1:
-                    shapes_rows.append([shape_id, stops[s1][0], stops[s1][1], pt_seq])
-                    pt_seq += 1
-                
-                # USER PATCH: Force connection through Thansit if skipping it
-                if (s1 == 'ATGAON' and s2 == 'KHARDI') or (s1 == 'KHARDI' and s2 == 'ATGAON'):
-                    if 'THANSIT' in stops:
-                        shapes_rows.append([shape_id, stops['THANSIT'][0], stops['THANSIT'][1], pt_seq])
-                        pt_seq += 1
-                        
-                shapes_rows.append([shape_id, stops[s2][0], stops[s2][1], pt_seq])
-                pt_seq += 1
-                
-    path = os.path.join(GTFS_DIR, "shapes.txt")
-    with open(path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence"])
-        writer.writerows(shapes_rows)
-        
-    print(f"Successfully generated shapes.txt with {len(shapes_rows)} precise geographic points!")
+    for i in range(len(components)):
+        for j in range(i + 1, len(components)):
+            d, n1, n2 = min((haversine(*a, *b), a, b) for a in components[i] for b in components[j])
+            if d < BRIDGE_GAP_M:
+                G.add_edge(n1, n2, weight=d)
+    return G.subgraph(max(nx.connected_components(G), key=len)).copy()
+
+
+def candidates(G, lat, lon):
+    """[(track_node, snap_distance_m)]: the nearest track point on each line near the stop,
+    or the nearest point of any line if none is that close. Empty if the stop is off the tracks."""
+    nearest = {}  # line -> (distance, node)
+    best = (NO_PATH, None)
+    for node, data in G.nodes(data=True):
+        d = haversine(lat, lon, data["lat"], data["lon"])
+        best = min(best, (d, node), key=lambda x: x[0])
+        for line in data["lines"]:
+            if d < nearest.get(line, (NO_PATH,))[0]:
+                nearest[line] = (d, node)
+    near = {node: d for d, node in nearest.values() if d <= SNAP_PER_LINE_M}
+    if near:
+        return list(near.items())
+    return [(best[1], best[0])] if best[0] <= SNAP_ANY_M else []
+
+
+def choose_nodes(G, stop_cands, track_length):
+    """Viterbi over a shape's stops: one candidate per stop (None = stop off the tracks),
+    minimising snap distances plus the track length between consecutive stops."""
+    layers = [c if c else [(None, 0)] for c in stop_cands]
+    cost = [{n: d for n, d in layers[0]}]
+    back = []
+    for prev, layer in zip(layers, layers[1:]):
+        step, choice = {}, {}
+        for n2, snap in layer:
+            options = [(cost[-1][n1] + snap + (track_length(n1, n2) if n1 and n2 else 0), n1)
+                       for n1, _ in prev]
+            step[n2], choice[n2] = min(options, key=lambda x: x[0])
+        cost.append(step)
+        back.append(choice)
+    node = min(cost[-1], key=cost[-1].get)
+    chosen = [node]
+    for choice in reversed(back):
+        node = choice[node]
+        chosen.append(node)
+    return chosen[::-1]
+
+
+def read_shapes():
+    """shape_id -> stop sequence, from the first trip using each shape."""
+    shape_of = {}
+    with open(GTFS / "trips.txt", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            shape_of[r["trip_id"]] = r["shape_id"]
+    stops_of = defaultdict(list)
+    with open(GTFS / "stop_times.txt", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            stops_of[r["trip_id"]].append((int(r["stop_sequence"]), r["stop_id"]))
+    shapes = {}
+    for trip, seq in stops_of.items():
+        shapes.setdefault(shape_of[trip], [s for _, s in sorted(seq)])
+    return shapes
+
+
+def generate_shapes():
+    G = build_track_graph()
+    print(f"Track graph: {G.number_of_nodes()} points")
+    with open(GTFS / "stops.txt", encoding="utf-8") as f:
+        stops = {r["stop_id"]: (float(r["stop_lat"]), float(r["stop_lon"])) for r in csv.DictReader(f)
+                 if r["stop_mode"] == "LOCAL"}  # metro shapes come from metro.py
+    cands = {s: candidates(G, *ll) for s, ll in stops.items()}
+
+    lengths = {}
+
+    def track_length(a, b):
+        if (a, b) not in lengths:
+            try:
+                lengths[a, b] = nx.shortest_path_length(G, a, b, weight="weight")
+            except nx.NetworkXNoPath:
+                lengths[a, b] = NO_PATH
+        return lengths[a, b]
+
+    shapes = {sid: seq for sid, seq in read_shapes().items() if all(st in stops for st in seq)}
+    rows = []
+    for shape_id, seq in shapes.items():
+        nodes = choose_nodes(G, [cands[s] for s in seq], track_length)
+        points = []
+        for (s1, n1), (s2, n2) in zip(zip(seq, nodes), zip(seq[1:], nodes[1:])):
+            if n1 and n2 and track_length(n1, n2) < NO_PATH:
+                path = nx.shortest_path(G, n1, n2, weight="weight")
+                points += [(G.nodes[n]["lat"], G.nodes[n]["lon"]) for n in path]
+            else:  # off the tracks (Dahanu, Kasara, ...): straight line between the stations
+                points += [stops[s1], stops[s2]]
+                # Manual patch: this hop skips Thansit, which lies between the two.
+                if {s1, s2} == {"ATGAON", "KHARDI"} and "THANSIT" in stops:
+                    points.insert(-1, stops["THANSIT"])
+        deduped = [p for i, p in enumerate(points) if i == 0 or p != points[i - 1]]
+        rows += [[shape_id, lat, lon, i + 1] for i, (lat, lon) in enumerate(deduped)]
+
+    metro_rows = metro.build()["shapes"]
+    rows += metro_rows
+    with open(GTFS / "shapes.txt", "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f, lineterminator="\n")
+        w.writerow(["shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence"])
+        w.writerows(rows)
+    print(f"{len(shapes)} local shapes + {len({r[0] for r in metro_rows})} metro shapes, {len(rows)} points")
+
 
 if __name__ == "__main__":
-    generate_kml_shapes()
+    generate_shapes()

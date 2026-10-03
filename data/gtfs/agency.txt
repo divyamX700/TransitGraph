@@ -1,3 +1,6 @@
 agency_id,agency_name,agency_url,agency_timezone,agency_lang
 CR,Central Railway,https://cr.indianrailways.gov.in/,Asia/Kolkata,en
 WR,Western Railway,https://wr.indianrailways.gov.in/,Asia/Kolkata,en
+MMMOCL,Maha Mumbai Metro Operation Corporation,https://www.mmmocl.co.in/,Asia/Kolkata,en
+MMOPL,Mumbai Metro One Pvt Ltd,https://www.mumbaimetroone.com/,Asia/Kolkata,en
+MMRC,Mumbai Metro Rail Corporation,https://www.mmrcl.com/,Asia/Kolkata,en
