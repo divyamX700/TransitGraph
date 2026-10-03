@@ -1,10 +1,10 @@
-/* TransitGraph: daylight steel and enamel. Mode is a shape (train = tag with sleeper ticks, metro =
-   roundel, walk = dots); the line is the colour. Tokens first, then layout, then the parts. */
+/* Mode is a shape (train = tag with sleeper ticks, metro = round badge, walk = dots) and the line is
+   the colour. Tokens first, then layout, then components. */
 
 :root {
   color-scheme: light dark;
 
-  --ground: #dde3e7;   /* steel */
+  --ground: #dde3e7;
   --panel: #f6f8f9;
   --raised: #ffffff;
   --ink: #0c1a26;

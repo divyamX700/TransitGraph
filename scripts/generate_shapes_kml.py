@@ -7,30 +7,20 @@ time. Each stop therefore gets one candidate track point per line (Western, Cent
 the candidates for a whole shape are chosen together to minimise the total track length.
 """
 import csv
-import math
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 
 import networkx as nx
 
 import metro
-from common import EXTRACTED, GTFS
+from common import EXTRACTED, GTFS, haversine
 
-KML_FILE = EXTRACTED / "46f53a20-aebb-4096-bf33-c6d9d87afaca.kml"  # rail track geometry
+KML_FILE = EXTRACTED / "rail_tracks.kml"  # track geometry, one placemark per line section
 KML_NS = {"k": "http://www.opengis.net/kml/2.2"}
 SNAP_PER_LINE_M = 400    # candidate track point per line within this distance of a stop
 SNAP_ANY_M = 1000        # otherwise the nearest track point, if within this distance
 BRIDGE_GAP_M = 500       # connect separate track components closer than this
 NO_PATH = float("inf")
-
-
-def haversine(lat1, lon1, lat2, lon2):
-    R = 6371000
-    phi1, phi2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dlambda = math.radians(lon2 - lon1)
-    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
-    return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
 
 def build_track_graph():

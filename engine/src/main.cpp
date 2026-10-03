@@ -16,7 +16,7 @@ string format_time(int mins) {
     return string(buf);
 }
 
-// Convert journeys to JSON manually to avoid external dependencies
+// Journeys as JSON, written by hand so the engine needs no libraries
 string journeys_to_json(const vector<vector<JourneyLeg>>& journeys) {
     stringstream ss;
     ss << "[";
@@ -50,61 +50,45 @@ string journeys_to_json(const vector<vector<JourneyLeg>>& journeys) {
 
 int main(int argc, char** argv) {
     string gtfs_dir = argc > 1 ? argv[1] : "data/gtfs";
-    
-    // 1. Initialize data structures
     RaptorData data = GTFSParser::parse(gtfs_dir);
     Raptor raptor(data);
-    
-    // 2. Initialize LRU Cache for the queries
-    LRUCache<string, string> cache(1000);
-    
+    LRUCache<string, string> cache(1000);  // query -> JSON answer
+
+    // One query per line on stdin, "id|from,to,minutes"; one answer per line on stdout, "id|json".
+    // endl flushes, so the API gets each answer as soon as it is written.
     cout << "READY" << endl;
-    
-    // 3. Persistent Event Loop listening to Node.js via stdin
     string line;
     while (getline(cin, line)) {
         if (!line.empty() && line.back() == '\r') line.pop_back();
-        if (line == "EXIT") break;
-        
-        // Expected format: UUID|SOURCE,TARGET,DEPARTURE_TIME_MINS
         size_t pipe_pos = line.find('|');
         if (pipe_pos == string::npos) {
-            cout << "error|{\"error\": \"Invalid format missing UUID\"}" << endl;
+            cout << "error|{\"error\": \"Missing request id\"}" << endl;
             continue;
         }
-        string uuid = line.substr(0, pipe_pos);
-        string query_str = line.substr(pipe_pos + 1);
-        
-        stringstream ss(query_str);
+        string id = line.substr(0, pipe_pos);
+        string query = line.substr(pipe_pos + 1);
+
+        stringstream ss(query);
         string source, target, time_str;
         getline(ss, source, ',');
         getline(ss, target, ',');
         getline(ss, time_str, ',');
-        
+
         char* end = nullptr;
         long dep_time = strtol(time_str.c_str(), &end, 10);
         if (source.empty() || target.empty() || time_str.empty() || *end != '\0' ||
             dep_time < 0 || dep_time >= 24 * 60) {
-            cout << uuid << "|{\"error\": \"Invalid format\"}" << endl;
+            cout << id << "|{\"error\": \"Invalid format\"}" << endl;
             continue;
         }
-        
-        string cache_key = query_str;
-        string json_result;
-        
-        if (cache.get(cache_key, json_result)) {
-            // Cache Hit
-            cout << uuid << "|{\"cached\": true, \"routes\": " << json_result << "}" << endl;
-        } else {
-            // Cache Miss -> Run RAPTOR
-            auto journeys = raptor.compute_pareto_routes(source, target, dep_time);
-            
-            json_result = journeys_to_json(journeys);
-            cache.put(cache_key, json_result);
-            
-            cout << uuid << "|{\"cached\": false, \"routes\": " << json_result << "}" << endl;
+
+        string json;
+        bool cached = cache.get(query, json);
+        if (!cached) {
+            json = journeys_to_json(raptor.compute_pareto_routes(source, target, dep_time));
+            cache.put(query, json);
         }
+        cout << id << "|{\"cached\": " << (cached ? "true" : "false") << ", \"routes\": " << json << "}" << endl;
     }
-    
     return 0;
 }

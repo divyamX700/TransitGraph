@@ -1,7 +1,7 @@
 // Lines, modes and time formatting shared by the planner, journey list and map.
 
 let lines = {}   // line id -> { name, short_name, color, mode }
-let stations = {} // stop id -> { name, lat, lon, mode, line }
+let stations = {} // stop id -> { name, lat, lon, mode, line, lines }
 
 export function setNetwork(linesMap, stationsMap) {
   lines = linesMap || {}
@@ -9,6 +9,8 @@ export function setNetwork(linesMap, stationsMap) {
 }
 
 const LOCAL_LABEL = { WR_DAHANU: 'Western' }
+// one letter per railway, for small badges ("Trans-Harbour" is T, "Harbour" is H)
+const LOCAL_LETTER = { WR_MAIN: 'W', WR_DAHANU: 'W', CR_MAIN: 'C', CR_HARBOUR: 'H', CR_TRANS: 'T', CR_PORT: 'P' }
 
 export function lineInfo(id) {
   const l = lines[id]
@@ -19,14 +21,11 @@ export function lineInfo(id) {
   return { id, ...l, label, letter: LOCAL_LETTER[id] || label[0] }
 }
 
-// one letter per railway, for small badges ("Trans-Harbour" is T, "Harbour" is H)
-const LOCAL_LETTER = { WR_MAIN: 'W', WR_DAHANU: 'W', CR_MAIN: 'C', CR_HARBOUR: 'H', CR_TRANS: 'T', CR_PORT: 'P' }
-
 export function modeName(mode) {
   return { LOCAL: 'Local train', METRO: 'Metro', MONORAIL: 'Monorail', WALK: 'Walk' }[mode] || mode
 }
 
-// The ink (dark or white) that reads better on an enamel colour
+// Text colour (dark or white) with the better contrast on a line colour
 export function inkOn(hex) {
   const n = parseInt(hex.slice(1), 16)
   const lin = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4 }
@@ -65,9 +64,8 @@ export function nowMinutes() {
   return d.getHours() * 60 + d.getMinutes()
 }
 
-export function toHHMM(min) {
-  return clock(min)
-}
+// "HH:MM" with a real hour and minute
+export const isClock = (text) => /^([01]\d|2[0-3]):[0-5]\d$/.test(text || '')
 
 export function fromHHMM(text) {
   const [h, m] = text.split(':').map(Number)

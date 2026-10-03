@@ -1,3 +1,4 @@
+// Least recently used cache: a map for O(1) lookup and a doubly linked list for recency order.
 class Node {
   constructor(key, value) {
     this.key = key;
@@ -11,8 +12,8 @@ class LRUCache {
   constructor(capacity) {
     this.capacity = capacity;
     this.map = new Map();
-    
-    // Dummy head and tail to avoid edge cases
+
+    // sentinels, so adding and removing never has to check for an empty list
     this.head = new Node(null, null);
     this.tail = new Node(null, null);
     this.head.next = this.tail;
@@ -54,7 +55,7 @@ class LRUCache {
       this._add(node);
     } else {
       if (this.map.size >= this.capacity) {
-        // Remove LRU node (right before tail)
+        // evict the least recently used entry, just before the tail
         const lruNode = this.tail.prev;
         this._remove(lruNode);
         this.map.delete(lruNode.key);
@@ -63,11 +64,6 @@ class LRUCache {
       this._add(newNode);
       this.map.set(key, newNode);
     }
-  }
-  
-  // Expose size for testing
-  get size() {
-    return this.map.size;
   }
 }
 

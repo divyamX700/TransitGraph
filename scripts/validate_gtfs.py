@@ -8,8 +8,8 @@ import csv
 import sys
 from collections import defaultdict
 
-from common import GTFS
-from generate_shapes_kml import build_track_graph, haversine
+from common import GTFS, haversine
+from generate_shapes_kml import build_track_graph
 
 # Timetable entries known to be wrong in the source PTT (the PTT itself has the typo).
 KNOWN_SOURCE_TYPOS = {

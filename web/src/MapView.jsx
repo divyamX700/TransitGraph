@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo } from 'react'
 import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, ZoomControl } from 'react-leaflet'
 import { lineInfo, station } from './lines.js'
 import { ModeStroke, LineTag } from './Tags.jsx'
@@ -6,19 +6,8 @@ import { useDark } from './theme.js'
 
 const KEY = import.meta.env.VITE_CARTO_API_KEY
 
-// follows a media query live (dark mode, phone width)
-function useMedia(query) {
-  const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
-  useEffect(() => {
-    const m = window.matchMedia(query)
-    const on = () => setMatches(m.matches)
-    m.addEventListener('change', on)
-    return () => m.removeEventListener('change', on)
-  }, [query])
-  return matches
-}
-// With the project's CARTO key: CARTO basemaps (muted light and dark greys, so the transit lines are what stands out). Without one (local
-// development) CARTO refuses tiles, so plain OpenStreetMap tiles are used and darkened with CSS.
+// CARTO's muted grey basemaps keep the transit lines in front. CARTO needs a key; without one the map
+// falls back to OpenStreetMap tiles, darkened with CSS in dark mode.
 const TILES = {
   light: KEY ? `https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=${KEY}` : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
   dark: KEY ? `https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png?key=${KEY}` : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -112,9 +101,8 @@ function LegStroke({ leg, positions, dark }) {
   )
 }
 
-export default function MapView({ shapes, legs, lines }) {
+export default function MapView({ shapes, legs, lines, narrow }) {
   const dark = useDark()
-  const narrow = useMedia('(max-width: 859px)')
   const network = useMemo(() => networkLines(shapes), [shapes])
   const byShape = useMemo(() => Object.fromEntries((shapes?.features || []).map((f) => [f.properties.shape_id, f])), [shapes])
 

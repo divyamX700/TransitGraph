@@ -16,7 +16,6 @@ inline const char* mode_name(Mode m) {
 
 struct Stop {
     std::string id;
-    std::string name;
     uint32_t stop_routes_offset;
     uint32_t stop_routes_count;
     uint32_t footpaths_offset;
@@ -73,10 +72,8 @@ struct RaptorData {
     // Trips are sorted by departure time at the first stop.
     std::vector<StopTime> stop_times;
 
-    // String mappings for JSON parsing/output
     std::unordered_map<std::string, uint32_t> stop_id_to_index;
 
-    // For reconstructing the trip ID
-    // Trip string IDs mapped per route. trip_ids[route_idx][trip_idx] -> string
+    // trip_ids[route_idx][trip_idx]: the GTFS trip id, for the answer
     std::vector<std::vector<std::string>> trip_ids;
 };

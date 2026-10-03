@@ -33,8 +33,7 @@ public:
         }
 
         if (items.size() == capacity) {
-            auto last = items.back();
-            cache.erase(last.first);
+            cache.erase(items.back().first);
             items.pop_back();
         }
 

@@ -8,12 +8,11 @@ the track (the published end-to-end time spread over the stations in proportion 
 """
 import hashlib
 import json
-import math
 import re
 
 import networkx as nx
 
-from common import DATA
+from common import DATA, haversine
 
 LINES_FILE = DATA / "metro" / "lines.json"
 OSM_DIR = DATA / "metro" / "osm"
@@ -25,15 +24,6 @@ AGENCIES = {
     "MMMOCL": ("Maha Mumbai Metro Operation Corporation", "https://www.mmmocl.co.in/"),
     "MMRC": ("Mumbai Metro Rail Corporation", "https://www.mmrcl.com/"),
 }
-
-
-def haversine(lat1, lon1, lat2, lon2):
-    R = 6371000
-    phi1, phi2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dlambda = math.radians(lon2 - lon1)
-    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
-    return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
 
 def clean_name(name):

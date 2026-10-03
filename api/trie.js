@@ -1,49 +1,40 @@
+// Prefix trie for station search: insert words, then find every station with a word starting with a prefix.
 class TrieNode {
-    constructor() {
-        this.children = {};
-        this.isEndOfWord = false;
-        this.stationIds = []; // Stores matching GTFS station IDs
-    }
+  constructor() {
+    this.children = {};
+    this.stationIds = []; // stations whose word ends here
+  }
 }
 
 class PrefixTrie {
-    constructor() {
-        this.root = new TrieNode();
+  constructor() {
+    this.root = new TrieNode();
+  }
+
+  insert(word, stationId) {
+    let node = this.root;
+    for (const char of word.toLowerCase()) {
+      node = node.children[char] ||= new TrieNode();
     }
-    
-    insert(word, stationId) {
-        let node = this.root;
-        for (let char of word.toLowerCase()) {
-            if (!node.children[char]) {
-                node.children[char] = new TrieNode();
-            }
-            node = node.children[char];
-        }
-        node.isEndOfWord = true;
-        if (!node.stationIds.includes(stationId)) {
-            node.stationIds.push(stationId);
-        }
+    if (!node.stationIds.includes(stationId)) node.stationIds.push(stationId);
+  }
+
+  // Station ids under the prefix, each once
+  searchPrefix(prefix) {
+    let node = this.root;
+    for (const char of prefix.toLowerCase()) {
+      node = node.children[char];
+      if (!node) return [];
     }
-    
-    searchPrefix(prefix) {
-        let node = this.root;
-        for (let char of prefix.toLowerCase()) {
-            if (!node.children[char]) return [];
-            node = node.children[char];
-        }
-        return this.collectAll(node);
+    const found = new Set();
+    const stack = [node];
+    while (stack.length) {
+      const n = stack.pop();
+      n.stationIds.forEach((id) => found.add(id));
+      stack.push(...Object.values(n.children));
     }
-    
-    collectAll(node) {
-        let results = [];
-        if (node.isEndOfWord) {
-            results.push(...node.stationIds);
-        }
-        for (let char in node.children) {
-            results.push(...this.collectAll(node.children[char]));
-        }
-        return [...new Set(results)]; // unique
-    }
+    return [...found];
+  }
 }
 
 module.exports = PrefixTrie;

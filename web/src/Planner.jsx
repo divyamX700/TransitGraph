@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { ArrowsDownUp } from '@phosphor-icons/react'
 import StationInput from './StationInput.jsx'
+import { isClock } from './lines.js'
 
 export default function Planner({ from, to, time, busy, compact, onEdit, onFrom, onTo, onTime, onSwap, onNow, onSearch }) {
   const [spin, setSpin] = useState(0)
-  const ready = from && to && from.id !== to.id
+  const ready = from && to && from.id !== to.id && isClock(time)
 
   // on a phone, once there are results the form folds into one line so the journeys get the screen
   if (compact) {

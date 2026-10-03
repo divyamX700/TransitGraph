@@ -21,13 +21,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// 1. Station index: a Prefix Trie gives O(m) lookup of the stations whose name, or any word of
-//    it, starts with what the user typed ("road" finds "Matunga Road").
+// Station search: a prefix trie holding every word of every station name, so "road" finds
+// "Matunga Road".
 const normalize = (s) => s.toLowerCase().replace(/['.]/g, '');
 const trie = new PrefixTrie();
 const stationsMap = {};
 
-// Reads a GTFS file into objects keyed by its header row (no quoted commas in our feed)
+// A GTFS file as objects keyed by its header row
 function readTable(name) {
   const [header, ...lines] = fs.readFileSync(path.join(GTFS_DIR, name), 'utf8').split('\n');
   const columns = header.trim().split(',');
@@ -55,7 +55,8 @@ function splitCsv(line) {
 }
 
 // The lines that call at each stop, so a local station can show which railways it is on
-const routeOfTrip = Object.fromEntries(readTable('trips.txt').map((t) => [t.trip_id, t.route_id]));
+const trips = readTable('trips.txt');
+const routeOfTrip = Object.fromEntries(trips.map((t) => [t.trip_id, t.route_id]));
 const linesAt = {};
 for (const line of fs.readFileSync(path.join(GTFS_DIR, 'stop_times.txt'), 'utf8').split('\n').slice(1)) {
   const [tripId, , , stopId] = line.split(',');
@@ -83,9 +84,8 @@ const linesMap = Object.fromEntries(readTable('routes.txt').map((r) => [r.route_
   mode: r.route_type === '1' ? 'METRO' : r.route_type === '12' ? 'MONORAIL' : 'LOCAL',
 }]));
 
-// 2. The C++ engine: one persistent child process, queries multiplexed over stdin/stdout by id.
-//    Responses are one line each, `id|json`. If the engine dies, every waiting request gets an
-//    error and the engine is started again.
+// The C++ engine runs as one long-lived child process. Requests and answers are single lines over
+// stdin/stdout, `id|query` and `id|json`. If it dies, waiting requests fail and it is restarted.
 const engineExt = process.platform === 'win32' ? '.exe' : '';
 const enginePath = path.join(__dirname, `../engine/raptor${engineExt}`);
 // ENGINE_CMD (a JSON array) replaces the engine command; the tests use it to inject a fake engine.
@@ -147,52 +147,38 @@ function askEngine(from, to, time) {
   });
 }
 
-// 3. Map shapes: build the GeoJSON once at startup and keep a gzipped copy.
+// Map shapes as GeoJSON, built once at startup and also kept gzipped. shapes.txt is the largest file,
+// so it is streamed rather than read whole.
 let shapesGeoJSON = null;
 let shapesGzip = null;
 
-async function buildShapesGeoJSON() {
-  // shape_id -> route_id, from trips.txt
-  const shapeToRoute = {};
-  const tripLines = fs.readFileSync(path.join(GTFS_DIR, 'trips.txt'), 'utf8').split('\n');
-  const headers = tripLines[0].trim().split(',');
-  const routeIdx = headers.indexOf('route_id');
-  const shapeIdx = headers.indexOf('shape_id');
-  for (const line of tripLines.slice(1)) {
-    const parts = line.trim().split(',');
-    if (parts.length > shapeIdx) shapeToRoute[parts[shapeIdx]] = parts[routeIdx];
+async function buildShapes() {
+  const shapeToRoute = Object.fromEntries(trips.map((t) => [t.shape_id, t.route_id]));
+  const points = {};
+  const lines = readline.createInterface({ input: fs.createReadStream(path.join(GTFS_DIR, 'shapes.txt')) });
+  let header = true;
+  for await (const line of lines) {
+    if (header) { header = false; continue; }
+    const [shapeId, lat, lon, seq] = line.split(',');
+    if (seq) (points[shapeId] ||= []).push([+seq, +lon, +lat]);
   }
-
-  // Stream shapes.txt, grouping points by shape_id
-  const shapeCoords = {};
-  const rl = readline.createInterface({ input: fs.createReadStream(path.join(GTFS_DIR, 'shapes.txt')) });
-  let firstLine = true;
-  await new Promise((resolve) => {
-    rl.on('line', (line) => {
-      if (firstLine) { firstLine = false; return; }
-      const [shapeId, lat, lon, seq] = line.trim().split(',');
-      if (!shapeId || isNaN(parseFloat(lat)) || isNaN(parseFloat(lon))) return;
-      (shapeCoords[shapeId] ||= []).push([parseInt(seq), parseFloat(lon), parseFloat(lat)]);
-    });
-    rl.on('close', resolve);
-  });
-
-  const features = Object.entries(shapeCoords).map(([shapeId, points]) => ({
-    type: 'Feature',
-    properties: { shape_id: shapeId, route_id: shapeToRoute[shapeId] || null },
-    geometry: { type: 'LineString', coordinates: points.sort((a, b) => a[0] - b[0]).map(([, lon, lat]) => [lon, lat]) },
-  }));
-  shapesGeoJSON = { type: 'FeatureCollection', features };
+  shapesGeoJSON = {
+    type: 'FeatureCollection',
+    features: Object.entries(points).map(([shapeId, pts]) => ({
+      type: 'Feature',
+      properties: { shape_id: shapeId, route_id: shapeToRoute[shapeId] || null },
+      geometry: { type: 'LineString', coordinates: pts.sort((a, b) => a[0] - b[0]).map(([, lon, lat]) => [lon, lat]) },
+    })),
+  };
   shapesGzip = zlib.gzipSync(JSON.stringify(shapesGeoJSON));
-  console.log(`Shapes GeoJSON built: ${features.length} shapes.`);
+  console.log(`Shapes GeoJSON built: ${shapesGeoJSON.features.length} shapes.`);
 }
-buildShapesGeoJSON().catch(console.error);
+buildShapes().catch(console.error);
 
-// 4. API endpoints
 const routeCache = new LRUCache(500);
 
 app.get('/api/shapes', (req, res) => {
-  if (!shapesGzip) return res.status(503).json({ error: 'Shapes not ready yet' });
+  if (!shapesGzip) return res.status(503).json({ error: 'The map is still loading' });
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Cache-Control', 'public, max-age=3600');
   if (req.acceptsEncodings('gzip')) {

@@ -78,9 +78,8 @@ Mode mode_from_route_type(const string& route_type) {
 }
 
 struct RawTrip {
-    string trip_id;
-    string shape_id; // Maps to RAPTOR Route
-    string route_id; // The line (routes.txt)
+    string shape_id;  // one stop sequence, split into RAPTOR routes below
+    string route_id;  // the line (routes.txt)
 };
 
 struct RawStopTime {
@@ -98,7 +97,6 @@ RaptorData GTFSParser::parse(const string& gtfs_dir) {
     for (const auto& row : stops_csv.rows) {
         Stop s;
         s.id = stops_csv.get(row, "stop_id");
-        s.name = stops_csv.get(row, "stop_name");
         if (s.id.empty()) continue;
         s.stop_routes_offset = 0;
         s.stop_routes_count = 0;
@@ -120,11 +118,10 @@ RaptorData GTFSParser::parse(const string& gtfs_dir) {
     Table trips_csv = read_table(gtfs_dir + "/trips.txt");
     for (const auto& row : trips_csv.rows) {
         string id = trips_csv.get(row, "trip_id");
-        trips[id] = {id, trips_csv.get(row, "shape_id"), trips_csv.get(row, "route_id")};
+        trips[id] = {trips_csv.get(row, "shape_id"), trips_csv.get(row, "route_id")};
     }
 
     cerr << "Parsing stop_times.txt..." << endl;
-    // Map trip_id to list of raw stop times
     unordered_map<string, vector<RawStopTime>> trip_stop_times;
     Table stop_times_csv = read_table(gtfs_dir + "/stop_times.txt");
     for (const auto& row : stop_times_csv.rows) {
@@ -140,14 +137,13 @@ RaptorData GTFSParser::parse(const string& gtfs_dir) {
         trip_stop_times[trip_id].push_back(rst);
     }
 
-    // Fix midnight rollover within trips and duplicate for 48h window
+    // Fix times that wrap at midnight, and add a copy of every trip a day later (a 48 hour window)
     vector<string> original_trip_ids;
     for (auto& kv : trips) original_trip_ids.push_back(kv.first);
 
     for (const string& tid : original_trip_ids) {
         auto& sts = trip_stop_times[tid];
         if (sts.empty()) { trips.erase(tid); trip_stop_times.erase(tid); continue; }
-        // Sort by sequence
         sort(sts.begin(), sts.end(), [](const RawStopTime& a, const RawStopTime& b) {
             return a.stop_sequence < b.stop_sequence;
         });
@@ -162,7 +158,6 @@ RaptorData GTFSParser::parse(const string& gtfs_dir) {
             last_time = st.departure_time;
         }
 
-        // Duplicate for next day
         string next_day_tid = tid + "_nextday";
         trips[next_day_tid] = trips[tid];
         for (const auto& st : sts) {
@@ -173,17 +168,15 @@ RaptorData GTFSParser::parse(const string& gtfs_dir) {
         }
     }
 
-    // In RAPTOR, a route is a set of trips with the EXACT same sequence of stops.
-    // By definition of our GTFS compiler, `shape_id` uniquely identifies a stop sequence!
+    // A RAPTOR route is a set of trips with the same stop sequence. The compiler gives each stop
+    // sequence its own shape_id, so trips are grouped by shape first.
     cerr << "Building RAPTOR routes..." << endl;
-
-    // Group trips by shape_id
     unordered_map<string, vector<string>> route_to_trips;
     for (const auto& kv : trips) {
         route_to_trips[kv.second.shape_id].push_back(kv.first);
     }
 
-    // Temporary structure to hold routes (and the stop's position in them) associated with each stop
+    // stop -> (route, position in the route), collected here and flattened below
     vector<vector<StopRoute>> stop_to_routes(data.stops.size());
 
     for (auto& kv : route_to_trips) {
@@ -253,7 +246,7 @@ RaptorData GTFSParser::parse(const string& gtfs_dir) {
         }
     }
 
-    // Finalize stop_routes
+    // stop -> routes serving it, in compressed sparse rows
     for (size_t i = 0; i < data.stops.size(); i++) {
         data.stops[i].stop_routes_offset = data.stop_routes.size();
         data.stops[i].stop_routes_count = stop_to_routes[i].size();

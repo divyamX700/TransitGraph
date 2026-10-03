@@ -93,6 +93,7 @@ export default function StationInput({ label, value, onChange, placeholder }) {
           onChange={typing}
           onKeyDown={keys}
           onFocus={(e) => { e.target.select(); if (options.length) setOpen(true) }}
+          onBlur={() => setOpen(false)}
         />
         {value && <span className="option-tags"><StationBadges station={value} /></span>}
         {text && (
@@ -119,7 +120,7 @@ export default function StationInput({ label, value, onChange, placeholder }) {
             </li>
           ))}
           {waiting && options.length === 0 && [0, 1, 2].map((n) => <li key={n} className="skeleton-option" role="presentation"><span className="skel" /></li>)}
-          {!waiting && options.length === 0 &&<li className="none" role="presentation">No station matches “{text}”</li>}
+          {!waiting && options.length === 0 && <li className="none" role="presentation">No station matches “{text}”</li>}
         </ul>
       )}
     </div>

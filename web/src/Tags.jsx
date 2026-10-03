@@ -1,15 +1,15 @@
 import { PersonSimpleWalk } from '@phosphor-icons/react'
 import { lineInfo, inkOn } from './lines.js'
 
-// How a leg is read: a train is a rectangular tag with sleeper ticks, metro is a round roundel,
-// a walk is a dotted outline. Colour names the line; the shape names the mode.
+// A train is a rectangular tag with sleeper ticks, metro a round badge, a walk a dotted outline.
+// The colour is the line; the shape is the mode.
 export function LineTag({ id, quiet, letter }) {
   const l = lineInfo(id)
   const style = { '--c': l.color, '--on': inkOn(l.color) }
   const metro = l.mode === 'METRO' || l.mode === 'MONORAIL'
   return (
     <span className={`tag ${metro ? 'tag-metro' : 'tag-train'}${letter ? ' tag-letter' : ''}`} style={style} title={l.name}>
-      {!quiet && <span className="sr-only">{metro ? `${l.name}` : `${l.name}, local train`}</span>}
+      {!quiet && <span className="sr-only">{metro ? l.name : `${l.name}, local train`}</span>}
       <span aria-hidden="true">{letter || l.label}</span>
     </span>
   )
@@ -34,6 +34,6 @@ export function WalkTag({ compact }) {
 }
 
 // A short stroke in the style of a mode, for legends
-export function ModeStroke({ mode, color = 'var(--ink)' }) {
-  return <span className={`stroke stroke-${mode}`} style={{ '--c': color }} aria-hidden="true" />
+export function ModeStroke({ mode }) {
+  return <span className={`stroke stroke-${mode}`} aria-hidden="true" />
 }

@@ -1,41 +1,28 @@
-# Node.js
+# Node
 node_modules/
 dist/
-dist-ssr/
-.npm/
 *.log
 
-# C++ Build Artifacts
+# Engine build output
+engine/raptor
+*.exe
 *.o
 *.obj
-*.exe
-*.dll
-*.so
-*.dylib
-*.pdb
-*.ilk
-engine/build/
-engine/raptor.exe
 
-# Local IDE and Configs
+# Editors and OS
 .vscode/
 .idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
 *.swp
 .DS_Store
 
-# Python Virtual Environments & Caches
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
 venv/
-env/
+
+# Local environment (API keys)
 .env
 .env.*
 
 # Scratch
 scratch/
-*.temp

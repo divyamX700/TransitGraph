@@ -19,8 +19,7 @@ import time
 import urllib.parse
 import urllib.request
 
-from common import DATA, GTFS
-from metro import haversine
+from common import DATA, GTFS, haversine
 
 WALKS_FILE = DATA / "metro" / "walks.json"
 MANUAL_FILE = DATA / "metro" / "interchanges.json"

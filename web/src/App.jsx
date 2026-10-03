@@ -5,9 +5,10 @@ import MapView from './MapView.jsx'
 import { fetchLines, fetchShapes, fetchStations, findRoutes } from './api.js'
 import { Desktop, Moon, Sun } from '@phosphor-icons/react'
 import { applyMode, nextMode, storedMode } from './theme.js'
-import { describeJourneys, fromHHMM, nowMinutes, setNetwork, toHHMM } from './lines.js'
+import { clock, describeJourneys, fromHHMM, isClock, nowMinutes, setNetwork } from './lines.js'
 
 const SLOW_MS = 4000
+const WAKING = 'The server is waking up. The first search can take a minute.'
 
 function useNarrow() {
   const query = '(max-width: 859px)'
@@ -78,7 +79,7 @@ export default function App() {
 
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
-  const [time, setTime] = useState(toHHMM(nowMinutes()))
+  const [time, setTime] = useState(clock(nowMinutes()))
   const [state, setState] = useState({ phase: 'idle' }) // idle | loading | slow | done | error
   const [found, setFound] = useState({ shown: [], slower: [] })
   const [showSlower, setShowSlower] = useState(false)
@@ -105,11 +106,11 @@ export default function App() {
     return () => { alive = false }
   }, [])
 
-  const search = useCallback(async (f, t, clock) => {
+  const search = useCallback(async (f, t, at) => {
     request.current?.abort()
     const controller = new AbortController()
     request.current = controller
-    const minutes = fromHHMM(clock)
+    const minutes = fromHHMM(at)
     setState({ phase: 'loading' })
     const slow = setTimeout(() => setState((s) => (s.phase === 'loading' ? { phase: 'slow' } : s)), SLOW_MS)
     try {
@@ -121,7 +122,7 @@ export default function App() {
       setQueryMinutes(minutes)
       setState({ phase: 'done' })
       setEditing(false)
-      history.replaceState(null, '', `?from=${f.id}&to=${t.id}&at=${clock}`)
+      history.replaceState(null, '', `?from=${encodeURIComponent(f.id)}&to=${encodeURIComponent(t.id)}&at=${at}`)
       resultsRef.current?.focus({ preventScroll: false })
     } catch (e) {
       if (e.name !== 'AbortError') setState({ phase: 'error', message: e.message })
@@ -136,7 +137,7 @@ export default function App() {
     const q = new URLSearchParams(location.search)
     const f = stations[q.get('from')]
     const t = stations[q.get('to')]
-    const at = /^\d\d:\d\d$/.test(q.get('at') || '') ? q.get('at') : null
+    const at = isClock(q.get('at')) ? q.get('at') : null
     if (f && t) {
       const a = { id: q.get('from'), ...f }
       const b = { id: q.get('to'), ...t }
@@ -179,7 +180,7 @@ export default function App() {
             onFrom={(s) => { setFrom(s); clearResults() }}
             onTo={(s) => { setTo(s); clearResults() }}
             onTime={setTime}
-            onNow={() => setTime(toHHMM(nowMinutes()))}
+            onNow={() => setTime(clock(nowMinutes()))}
             onSwap={swap}
             onSearch={() => search(from, to, time)}
           />
@@ -192,8 +193,7 @@ export default function App() {
               <p className="empty">Pick a start and a destination.</p>
             )}
             {(state.phase === 'loading' || state.phase === 'slow') && (
-              <Skeleton label={state.phase === 'slow' ? 'The server is waking up. The first search can take a minute.' : 'Finding journeys'}
-                note={state.phase === 'slow' ? 'The server is waking up. The first search can take a minute.' : null} />
+              <Skeleton label={state.phase === 'slow' ? WAKING : 'Finding journeys'} note={state.phase === 'slow' ? WAKING : null} />
             )}
             {state.phase === 'error' && (
               <p className="notice error" role="alert">
@@ -203,7 +203,7 @@ export default function App() {
             {state.phase === 'done' && items.length === 0 && (
               <div className="empty">
                 <p className="empty-title">No journey found</p>
-                <p>Nothing runs from {from.name} to {to.name} after {time}. Try an earlier time.</p>
+                <p>Nothing runs from {from.name} to {to.name} after {clock(queryMinutes)}. Try an earlier time.</p>
               </div>
             )}
             {state.phase === 'done' && items.length > 0 && (
@@ -221,11 +221,10 @@ export default function App() {
               </>
             )}
           </div>
-
         </section>
 
         <section className="mapbox" aria-label="Map">
-          <MapView shapes={shapes} legs={legs} lines={lines} />
+          <MapView shapes={shapes} legs={legs} lines={lines} narrow={narrow} />
         </section>
       </main>
     </div>

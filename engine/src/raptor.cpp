@@ -169,10 +169,9 @@ vector<vector<JourneyLeg>> Raptor::compute_pareto_routes(const string& source_id
 
         improved.clear();
 
-        // Traverse each route
         for (uint32_t r_idx : queue) {
             const Route& r = data.routes[r_idx];
-            int t = -1; // current trip_idx
+            int t = -1;  // trip currently ridden, -1 for none
             uint32_t boarded_stop = NO_STOP;
             bool boarded_after_walk = false;
 
@@ -200,10 +199,10 @@ vector<vector<JourneyLeg>> Raptor::compute_pareto_routes(const string& source_id
                         improved.push_back(pi);
                     }
                 }
-                
+
                 // Can we catch an earlier trip here?
                 if (ready[k - 1][pi] != INF) {
-                    // O(log T) binary search over chronologically sorted trips
+                    // earliest trip leaving pi at or after the ready time (trips never overtake)
                     int low = 0;
                     int high = r.num_trips - 1;
                     int best_trip_idx = -1;
@@ -212,9 +211,9 @@ vector<vector<JourneyLeg>> Raptor::compute_pareto_routes(const string& source_id
                         int dep_time = data.stop_times[r.stop_times_offset + mid * r.num_stops + j].departure_time;
                         if (dep_time >= ready[k - 1][pi]) {
                             best_trip_idx = mid;
-                            high = mid - 1; // Look for earlier valid trips
+                            high = mid - 1;
                         } else {
-                            low = mid + 1;  // Look for later trips
+                            low = mid + 1;
                         }
                     }
 
