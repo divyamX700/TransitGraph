@@ -1,108 +1,96 @@
-# TransitGraph (BomRouter)
+# TransitGraph
 
-TransitGraph is a high-performance multi-modal public transit routing engine and interface designed for the Mumbai suburban rail and metro networks.
+A journey planner for Mumbai that routes across local trains and the metro in a single search, including the walk between a local station and a metro station.
 
-Standard routing algorithms (such as Dijkstra or A*) compute single-criterion shortest paths based purely on travel time, frequently yielding fragile routes with impractical transfer windows. TransitGraph implements the **RAPTOR** (Round-Based Public Transit Routing) algorithm to generate **Pareto-optimal** journey sets, optimizing simultaneously for earliest arrival time and minimal trip transfers.
+Live demo: https://transit-graph.vercel.app
 
----
+![Nerul to Cuffe Parade: two local trains, a walk and Metro Line 3](docs/images/desktop-dark.png)
 
-## Architecture Overview
+## Features
 
-The system is organized into three decoupled layers:
+- One search across the Western, Central, Harbour, Trans-Harbour and Port local lines and Metro Lines 1, 2A, 2B, 3 and 7+9.
+- Walking is part of the route. A journey can begin, end or change with a walk, such as Prabhadevi (Western) to Parel (Central) or Andheri station to Andheri on Metro Line 1. A short trip can be a walk and nothing else.
+- Results are the fastest journey and the one with the fewest changes, when those differ. Each can be expanded into a stop by stop view.
+- The selected journey is drawn on the map. Local trains, metro and walking have separate shapes (ticked rectangle, round badge, dots), and each line keeps its own colour.
+- Station search matches any word in the name, so "road" finds Matunga Road.
+- Light and dark themes, usable on a phone.
+
+![Prabhadevi to Chhatrapati Shivaji Maharaj Terminus in the light theme](docs/images/desktop-light.png)
+
+## How it works
 
 ```
-[ React Client ] 
-       │  HTTP / JSON
-       ▼
-[ Node.js API Layer ] ── (In-memory Prefix Trie for O(m) Station Autocomplete)
-       │  IPC (stdin / stdout pipes)
-       ▼
-[ C++ RAPTOR Engine ] ── (Contiguous GTFS Arrays + O(1) LRU Query Cache)
+React app  <->  Node API  <->  C++ routing engine
+                                      |
+                              GTFS files in data/gtfs
 ```
 
-### 1. C++ Routing Core (`engine/`)
-* **Algorithm:** Implements RAPTOR (Delling et al.), relaxing routes round-by-round ($k$-th round corresponds strictly to journeys with $k-1$ transfers).
-* **Memory Layout:** Parses GTFS data into flattened `std::vector` structures (Structure of Arrays) to maximize CPU cache locality and eliminate pointer-chasing during graph traversal.
-* **Timetable Lookup:** Uses $O(\log T)$ binary search over sorted departure arrays to identify the earliest valid trip at any boarded stop.
-* **Footpath Modeling:** Models physical walking transfers between disconnected modal stations (e.g., Suburban Rail to Metro) using a Compressed Sparse Row (CSR) adjacency matrix.
-* **LRU Cache:** An internal $O(1)$ Least Recently Used cache (hash map + doubly linked list) to memoize high-frequency commuter queries.
+**Routing engine.** The engine implements RAPTOR (Round-Based Public Transit Routing, Delling, Pajor and Werneck). It works in rounds, and round *k* finds the earliest arrival using *k* vehicles. Collecting the best result of each round gives a Pareto front of arrival time against number of vehicles, which is where "fastest" and "fewest changes" come from. Timetable data is held in flat arrays, trips on a route are binary searched by departure time, and a route is split wherever one train overtakes another so the search stays correct. Walking links are stored as a compressed sparse row graph. A change between vehicles takes a fixed 5 minutes, and a walk costs its walking time and does not count as a vehicle. The engine covers a 48 hour window, so late night trips that cross midnight work.
 
-### 2. API Middleware (`api/`)
-* **Process Multiplexing:** Supervises a persistent C++ child process and routes asynchronous HTTP queries across standard input/output streams via custom request correlation IDs, avoiding network serialization overhead between the server and the core engine.
-* **Station Search Index:** Houses an in-memory Prefix Trie providing $O(m)$ prefix search for station lookups where $m$ is the query string length.
+**API.** An Express server keeps one engine process running and exchanges one line per request with it over stdin and stdout, matched by request id. It restarts the engine if it exits, fails requests the engine does not answer within 5 seconds, and validates input before it reaches the engine. Station search is backed by a prefix trie, and route results are cached in an LRU cache. Map shapes are served gzipped.
 
-### 3. Web Interface (`web/`)
-* **Frontend Stack:** React, Vite, Leaflet.
-* **Map Optimization:** Transit line geometries (extracted from OpenStreetMap) are bundled as static GeoJSON and loaded once on client initialization. Route responses pass lightweight line identifiers rather than full coordinate sets.
+**Web app.** React with Vite and Leaflet. Line shapes are loaded once as GeoJSON, and route responses only carry line ids and times. Fonts are self-hosted.
 
-### 4. Data Engineering Pipeline (`scripts/`)
-* **GTFS Ingestion:** Python scripts parse unstructured timetable PDFs and schedule data into normalized GTFS feeds (`stops.txt`, `routes.txt`, `trips.txt`, `stop_times.txt`, `shapes.txt`).
-* **Midnight Rollover:** Employs a 48-hour schedule duplication (+1440 minute offset) to eliminate modulo arithmetic edge cases for overnight journeys spanning past 00:00.
+## Data
 
----
-
-## Benchmarks
-
-Measurements taken across 1,000 randomized non-cached origin-destination queries through the full Node.js $\leftrightarrow$ C++ IPC pipeline on an x86_64 host:
-
-| Metric | Latency |
+| Source | Contents |
 |---|---|
-| **Average Latency** | 2.78 ms |
-| **p50 Latency** | 2.29 ms |
-| **p95 Latency** | 3.72 ms |
-| **p99 Latency** | 25.56 ms |
-| **Min Latency** | 0.81 ms |
+| Western, Central, Harbour, Trans-Harbour and Port line passenger timetables (PTT) | 123 stations, 2,998 weekday trips |
+| Metro operators' published first and last trains and headways | Lines 1, 2A, 2B (phase 1), 3 and 7+9: 78 stations, 1,519 trips |
+| OpenStreetMap | Metro stations and tracks, and walking routes between stations |
 
----
+Local train times come from the printed timetables. Metro operators publish how often trains run, not timetables, so metro trips are generated from those headways. Walking links are the pairs of stations of different lines that are within 1 km of each other, with the distance taken from a pedestrian route on OpenStreetMap. 27 pairs qualify.
 
-## Directory Structure
+The monorail (suspended), Line 4 (not open yet), Navi Mumbai Metro and buses are not included. Only weekday service is modelled, there are no live delays, and metro times are approximate.
 
-```
-├── api/            # Express.js API supervisor and Prefix Trie index
-├── data/           # Normalized GTFS dataset and station mappings
-├── docs/           # Architecture Decision Records (ADRs) and specs
-├── engine/         # C++ RAPTOR engine, GTFS parser, and LRU cache
-├── scripts/        # Data extraction, normalization, and benchmark scripts
-└── web/            # React frontend and Leaflet visualization
-```
+The `data/gtfs` folder holds the result as GTFS. A Python pipeline in `scripts/` builds it:
 
----
+| Script | Does |
+|---|---|
+| `ingest_ptt.py` | Reads the timetable spreadsheets into CSV |
+| `compile_gtfs.py` | Joins trains split across several timetables, maps station names, adds the metro, writes GTFS |
+| `generate_shapes_kml.py` | Builds line shapes by snapping each train to the track |
+| `build_transfers.py` | Finds walking links between stations using Valhalla pedestrian routing |
+| `validate_gtfs.py` | Checks the result against known facts such as station counts, first and last trains and journey times |
 
-## Build and Installation
+## Getting started
 
-### Prerequisites
-* C++17 compatible compiler (`g++`, `clang++`, or MSVC)
-* Node.js (v18+)
+Requirements: a C++17 compiler, Node.js 18 or newer, and Python 3 only if the data is rebuilt.
 
-### 1. Build Core Engine
 ```bash
+# engine
 cd engine
-g++ -O3 -std=c++17 src/main.cpp src/raptor.cpp src/gtfs_parser.cpp -o raptor.exe
-```
+g++ -O3 -std=c++17 src/main.cpp src/raptor.cpp src/gtfs_parser.cpp -o raptor
 
-### 2. Start API Service
-```bash
-cd api
+# API, on http://localhost:3000
+cd ../api
 npm install
 node server.js
-```
-The API server initializes and listens on `http://localhost:3000`.
 
-### 3. Start Frontend Development Server
-```bash
-cd web
+# web app, on http://localhost:5173
+cd ../web
 npm install
 npm run dev
 ```
-The client will be accessible at `http://localhost:5173`.
 
----
+The dev server proxies `/api` to the API. Two optional environment variables are read by the web app:
 
-## Architecture Documentation
+- `VITE_API_URL`: base URL of the API. Empty by default.
+- `VITE_CARTO_API_KEY`: a [CARTO](https://carto.com) key for the grey basemap. Without it the map uses OpenStreetMap tiles.
 
-Technical rationale and trade-offs for all core components are documented in the [Architecture Decision Records (ADRs)](docs/decisions/):
-* `0001-language-and-tech-stack.md`
-* `0002-data-formats-and-gtfs.md`
-* `0003-algorithm-selection.md`
-* `0004-data-structures-and-memory.md`
-* `0005-backend-implementation-details.md`
+To rebuild the data, run `pip install -r scripts/requirements.txt` and then the scripts above in order.
+
+## Project structure
+
+```
+engine/    C++ RAPTOR engine, GTFS parser, LRU cache
+api/       Express API, prefix trie, LRU cache
+web/       React app
+data/      GTFS output, station names, metro definitions, source timetables
+scripts/   data pipeline
+tests/     engine, API and layout checks
+```
+
+## Built with
+
+C++17, Node.js and Express, React, Vite, Leaflet, Python (pandas, NetworkX), OpenStreetMap, Valhalla, CARTO basemaps.

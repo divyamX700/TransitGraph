@@ -26,7 +26,6 @@ engine/raptor.exe
 *.sln
 *.swp
 .DS_Store
-.agents/
 
 # Python Virtual Environments & Caches
 __pycache__/
@@ -35,16 +34,8 @@ __pycache__/
 venv/
 env/
 .env
+.env.*
 
-# Data (Optional: adjust if you want to push raw CSVs, but block large/temp data)
-# data/raw/
-# data/gtfs/*.txt  # Uncomment if you don't want to push the GTFS dataset to GitHub
-
-# Temp/Scratch
+# Scratch
 scratch/
-.tempmediaStorage/
 *.temp
-
-# AI Agent Context
-AGENTS.md
-skills-lock.json
