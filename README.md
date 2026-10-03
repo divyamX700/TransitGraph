@@ -41,18 +41,6 @@ React app  <->  Node API  <->  C++ routing engine
 
 Local train times come from the printed timetables. Metro operators publish how often trains run, not timetables, so metro trips are generated from those headways. Walking links are the pairs of stations of different lines that are within 1 km of each other, with the distance taken from a pedestrian route on OpenStreetMap. 27 pairs qualify.
 
-The monorail (suspended), Line 4 (not open yet), Navi Mumbai Metro and buses are not included. Only weekday service is modelled, there are no live delays, and metro times are approximate.
-
-The `data/gtfs` folder holds the result as GTFS. A Python pipeline in `scripts/` builds it:
-
-| Script | Does |
-|---|---|
-| `ingest_ptt.py` | Reads the timetable spreadsheets into CSV |
-| `compile_gtfs.py` | Joins trains split across several timetables, maps station names, adds the metro, writes GTFS |
-| `generate_shapes_kml.py` | Builds line shapes by snapping each train to the track |
-| `build_transfers.py` | Finds walking links between stations using Valhalla pedestrian routing |
-| `validate_gtfs.py` | Checks the result against known facts such as station counts, first and last trains and journey times |
-
 ## Getting started
 
 Requirements: a C++17 compiler, Node.js 18 or newer, and Python 3 only if the data is rebuilt.
@@ -78,7 +66,7 @@ The dev server proxies `/api` to the API. Two optional environment variables are
 - `VITE_API_URL`: base URL of the API. Empty by default.
 - `VITE_CARTO_API_KEY`: a [CARTO](https://carto.com) key for the grey basemap. Without it the map uses OpenStreetMap tiles.
 
-To rebuild the data, run `pip install -r scripts/requirements.txt` and then the scripts above in order.
+To rebuild the data, install `scripts/requirements.txt` and run `ingest_ptt.py`, `compile_gtfs.py`, `generate_shapes_kml.py`, `build_transfers.py` and `validate_gtfs.py` from `scripts/`, in that order.
 
 ## Project structure
 
@@ -88,7 +76,7 @@ api/       Express API, prefix trie, LRU cache
 web/       React app
 data/      GTFS output, station names, metro definitions, source timetables
 scripts/   data pipeline
-tests/     engine, API and layout checks
+tests/     engine and API tests
 ```
 
 ## Built with
