@@ -1,0 +1,14 @@
+node_modules
+**/node_modules
+.git
+.vscode
+scratch
+web
+tests
+docs
+data/raw_excel
+data/raw_pdfs
+data/extracted
+**/.env*
+*.exe
+engine/raptor
