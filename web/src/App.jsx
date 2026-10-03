@@ -1,225 +1,233 @@
-import { useState, useEffect, useCallback } from 'react'
-import { ArrowsDownUp, MagnifyingGlass } from '@phosphor-icons/react'
-import StationInput from './StationInput.jsx'
-import RouteCard from './RouteCard.jsx'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import Planner from './Planner.jsx'
+import Journeys from './Journeys.jsx'
 import MapView from './MapView.jsx'
-import { SkeletonCard } from './components.jsx'
-import TimePicker from './TimePicker.jsx'
-import { nowMins, formatTime } from './utils.js'
+import { fetchLines, fetchShapes, fetchStations, findRoutes } from './api.js'
+import { Desktop, Moon, Sun } from '@phosphor-icons/react'
+import { applyMode, nextMode, storedMode } from './theme.js'
+import { describeJourneys, fromHHMM, nowMinutes, setNetwork, toHHMM } from './lines.js'
 
-// Format minutes to HH:MM for time input default
-function minsToTimeStr(mins) {
-  const h = Math.floor(mins / 60) % 24
-  const m = mins % 60
-  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
+const SLOW_MS = 4000
+
+function useNarrow() {
+  const query = '(max-width: 859px)'
+  const [narrow, setNarrow] = useState(() => window.matchMedia(query).matches)
+  useEffect(() => {
+    const m = window.matchMedia(query)
+    const on = () => setNarrow(m.matches)
+    m.addEventListener('change', on)
+    return () => m.removeEventListener('change', on)
+  }, [])
+  return narrow
+}
+
+function Wordmark() {
+  // the logo is a small route diagram: one line leaves its origin and splits to two destinations
+  return (
+    <a className="wordmark" href="./" aria-label="TransitGraph, home">
+      <svg className="mark" width="34" height="28" viewBox="0 0 34 28" aria-hidden="true">
+        <g fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M11 21h6l5-12h5" />
+          <path d="M17 21h10" />
+          <circle cx="6.5" cy="21" r="3.9" />
+        </g>
+        <circle cx="30" cy="9" r="3" fill="currentColor" />
+        <circle cx="30" cy="21" r="3" fill="currentColor" />
+      </svg>
+      <span>TransitGraph</span>
+    </a>
+  )
+}
+
+// Placeholder tickets while the network or a search is loading
+function Skeleton({ label, note }) {
+  return (
+    <div className="skeleton" role="status" aria-label={label}>
+      {note && <p className="skeleton-note">{note}</p>}
+      {[0, 1].map((n) => (
+        <div className="skel-ticket" key={n} aria-hidden="true">
+          <span className="skel skel-band" />
+          <span className="skel skel-times" />
+          <span className="skel skel-strip" />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+const THEME_ICON = { system: Desktop, light: Sun, dark: Moon }
+
+function ThemeToggle() {
+  const [mode, setMode] = useState(storedMode)
+  const Icon = THEME_ICON[mode]
+  const next = nextMode(mode)
+  return (
+    <button type="button" className="theme-btn" aria-label={`Theme: ${mode}. Switch to ${next}`} title={`Theme: ${mode}`}
+      onClick={() => { applyMode(next); setMode(next) }}>
+      <Icon size={20} weight="bold" />
+      <span>{mode === 'system' ? 'Auto' : mode === 'light' ? 'Light' : 'Dark'}</span>
+    </button>
+  )
 }
 
 export default function App() {
+  const [stations, setStations] = useState(null)
+  const [lines, setLines] = useState(null)
+  const [shapes, setShapes] = useState(null)
+  const [loadError, setLoadError] = useState(null)
+
   const [from, setFrom] = useState(null)
   const [to, setTo] = useState(null)
-  const [timeStr, setTimeStr] = useState(minsToTimeStr(nowMins()))
-  const [routes, setRoutes] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [activeIdx, setActiveIdx] = useState(null)
-  const [hoveredIdx, setHoveredIdx] = useState(null)
-  const [shapesGeoJSON, setShapesGeoJSON] = useState(null)
-  const [stationsMap, setStationsMap] = useState(null)
+  const [time, setTime] = useState(toHHMM(nowMinutes()))
+  const [state, setState] = useState({ phase: 'idle' }) // idle | loading | slow | done | error
+  const [found, setFound] = useState({ shown: [], slower: [] })
+  const [showSlower, setShowSlower] = useState(false)
+  const [selected, setSelected] = useState(0)   // the journey drawn on the map
+  const [expanded, setExpanded] = useState(-1)   // the journey whose steps are open
+  const [queryMinutes, setQueryMinutes] = useState(0)
+  const narrow = useNarrow()
+  const [editing, setEditing] = useState(true)
+  const resultsRef = useRef(null)
+  const request = useRef(null)
 
-  const API = import.meta.env.VITE_API_URL || ''
-
-  // Load map shapes once
+  // network data: stations and lines first (small), shapes after (large, only the map needs them)
   useEffect(() => {
-    fetch(`${API}/api/shapes`)
-      .then(r => r.json())
-      .then(data => { if (!data.error) setShapesGeoJSON(data) })
-      .catch(console.error)
-      
-    fetch(`${API}/api/stations`)
-      .then(r => r.json())
-      .then(setStationsMap)
-      .catch(console.error)
+    let alive = true
+    Promise.all([fetchStations(), fetchLines()])
+      .then(([st, ln]) => {
+        if (!alive) return
+        setNetwork(ln, st)
+        setStations(st)
+        setLines(ln)
+      })
+      .catch((e) => alive && setLoadError(e.message))
+    fetchShapes().then((s) => alive && setShapes(s)).catch(() => {})
+    return () => { alive = false }
   }, [])
 
-  function swap() {
-    const tmp = from
-    setFrom(to)
-    setTo(tmp)
-    setRoutes(null)
-    setActiveIdx(null)
-  }
-
-  async function performSearch(overrideTimeStr) {
-    if (!from || !to) return
-    setLoading(true)
-    setError(null)
-    setRoutes(null)
-    setActiveIdx(null)
-
-    const tStr = overrideTimeStr || timeStr
-    const [h, m] = tStr.split(':').map(Number)
-    const mins = h * 60 + m
-
+  const search = useCallback(async (f, t, clock) => {
+    request.current?.abort()
+    const controller = new AbortController()
+    request.current = controller
+    const minutes = fromHHMM(clock)
+    setState({ phase: 'loading' })
+    const slow = setTimeout(() => setState((s) => (s.phase === 'loading' ? { phase: 'slow' } : s)), SLOW_MS)
     try {
-      const res = await fetch(`${API}/api/route?from=${from.id}&to=${to.id}&time=${mins}`)
-      const data = await res.json()
-      if (data.error) throw new Error(data.error)
-      setRoutes(data.routes || [])
-    } catch (err) {
-      setError(err.message)
+      const data = await findRoutes(f.id, t.id, minutes, controller.signal)
+      setFound(describeJourneys(data.routes || []))
+      setShowSlower(false)
+      setSelected(0)
+      setExpanded(-1)
+      setQueryMinutes(minutes)
+      setState({ phase: 'done' })
+      setEditing(false)
+      history.replaceState(null, '', `?from=${f.id}&to=${t.id}&at=${clock}`)
+      resultsRef.current?.focus({ preventScroll: false })
+    } catch (e) {
+      if (e.name !== 'AbortError') setState({ phase: 'error', message: e.message })
     } finally {
-      setLoading(false)
+      clearTimeout(slow)
     }
-  }
+  }, [])
 
-  function search(e) {
-    if (e) e.preventDefault()
-    performSearch()
-  }
-
-  function handleNowClick() {
-    const nowStr = minsToTimeStr(nowMins())
-    setTimeStr(nowStr)
-    if (from && to) {
-      performSearch(nowStr)
+  // a shared link opens with its search already run
+  useEffect(() => {
+    if (!stations) return
+    const q = new URLSearchParams(location.search)
+    const f = stations[q.get('from')]
+    const t = stations[q.get('to')]
+    const at = /^\d\d:\d\d$/.test(q.get('at') || '') ? q.get('at') : null
+    if (f && t) {
+      const a = { id: q.get('from'), ...f }
+      const b = { id: q.get('to'), ...t }
+      setFrom(a)
+      setTo(b)
+      if (at) setTime(at)
+      search(a, b, at || time)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stations])
+
+  // any change to the search drops the old results, and an answer still on its way
+  const clearResults = () => {
+    request.current?.abort()
+    setFound({ shown: [], slower: [] })
+    setState({ phase: 'idle' })
+  }
+  const swap = () => {
+    setFrom(to)
+    setTo(from)
+    clearResults()
   }
 
-  function handleCardSelect(idx) {
-    setActiveIdx(prev => prev === idx ? null : idx)
-  }
-
-  const activeRouteLegs = activeIdx !== null && routes ? routes[activeIdx] : null
-  const hoveredRouteLegs = hoveredIdx !== null && routes ? routes[hoveredIdx] : null
-
-  const isDataLoaded = shapesGeoJSON && stationsMap
+  const items = showSlower ? [...found.shown, ...found.slower] : found.shown
+  const legs = state.phase === 'done' && items[selected] ? items[selected].legs : null
 
   return (
-    <div className="app-shell">
-      {/* Nav */}
-      <nav className="nav">
-        <a href="/" className="nav-logo">
-          <span className="nav-logo-dot" />
-          TransitGraph
-        </a>
-        <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-          Mumbai Suburban Railway
-        </span>
-      </nav>
+    <div className="shell">
+      <header className="bar">
+        <Wordmark />
+        <p className="bar-note">Mumbai local trains and metro</p>
+        <ThemeToggle />
+      </header>
 
-      {/* Main split layout */}
-      <div className="main-layout">
-
-        {/* Left panel */}
-        <div className="panel">
-          {!isDataLoaded ? (
-            <div style={{ padding: 'var(--space-5)' }}>
-              <SkeletonCard />
-              <div style={{ height: 20 }} />
-              <SkeletonCard />
-              <div style={{ height: 20 }} />
-              <SkeletonCard />
-            </div>
-          ) : (
-            <>
-              <form className="search-form" onSubmit={search}>
-            <StationInput
-              id="from-input"
-              label="From"
-              value={from}
-              onChange={setFrom}
-              placeholder="e.g. Churchgate"
-            />
-            <StationInput
-              id="to-input"
-              label="To"
-              value={to}
-              onChange={setTo}
-              placeholder="e.g. Virar"
-            />
-
-            <div className="form-actions">
-              <button type="button" className="swap-btn" onClick={swap} title="Swap stations">
-                <ArrowsDownUp size={16} weight="bold" />
-              </button>
-              <TimePicker
-                value={timeStr}
-                onChange={setTimeStr}
-                onNow={handleNowClick}
-              />
-            </div>
-
-            <button
-              type="submit"
-              className={`search-btn${loading ? ' loading' : ''}`}
-              disabled={!from || !to || loading}
-            >
-              {loading ? 'Finding routes…' : 'Find Routes'}
-            </button>
-          </form>
-
-          {/* Results */}
-          <div className="panel-scroll">
-            {error && <div className="error-bar">{error}</div>}
-
-            {loading && (
-              <>
-                <div className="results-header">Searching…</div>
-                <SkeletonCard />
-                <SkeletonCard />
-              </>
-            )}
-
-            {!loading && routes === null && !error && (
-              <div className="empty-state">
-                <MagnifyingGlass size={40} weight="thin" style={{ opacity: 0.3 }} />
-                <p>Enter stations above to find routes</p>
-              </div>
-            )}
-
-            {!loading && routes?.length === 0 && (
-              <div className="empty-state">
-                <p>No routes found between these stations</p>
-              </div>
-            )}
-
-            {!loading && routes && routes.length > 0 && (
-              <>
-                <div className="results-header">
-                  {routes.length} route{routes.length > 1 ? 's' : ''} found
-                </div>
-                {routes.map((route, i) => (
-                  <RouteCard
-                    key={i}
-                    route={route}
-                    index={i}
-                    isActive={activeIdx === i}
-                    onSelect={handleCardSelect}
-                    onHover={setHoveredIdx}
-                  />
-                ))}
-              </>
-            )}
-          </div>
-        </>
-          )}
-        </div>
-
-        {/* Map */}
-        {isDataLoaded ? (
-          <MapView
-            shapesGeoJSON={shapesGeoJSON}
-            activeRouteLegs={activeRouteLegs}
-            stationsMap={stationsMap}
+      <main className="layout">
+        <section className="rail" aria-label="Journey planner">
+          <Planner
+            from={from} to={to} time={time} busy={state.phase === 'loading' || state.phase === 'slow'}
+            compact={narrow && !editing && state.phase === 'done'} onEdit={() => setEditing(true)}
+            onFrom={(s) => { setFrom(s); clearResults() }}
+            onTo={(s) => { setTo(s); clearResults() }}
+            onTime={setTime}
+            onNow={() => setTime(toHHMM(nowMinutes()))}
+            onSwap={swap}
+            onSearch={() => search(from, to, time)}
           />
-        ) : (
-          <div className="map-container" style={{ background: '#0C0E13', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ color: 'var(--text-muted)', fontFamily: 'Geist Mono', fontSize: 13 }}>
-              Loading network graph...
-            </div>
+
+          <div className="results" ref={resultsRef} tabIndex={-1} aria-live="polite">
+            {loadError && <p className="notice error" role="alert">{loadError}. Reload to try again.</p>}
+            {!stations && !loadError && <Skeleton label="Loading stations" />}
+
+            {state.phase === 'idle' && stations && (
+              <p className="empty">Pick a start and a destination.</p>
+            )}
+            {(state.phase === 'loading' || state.phase === 'slow') && (
+              <Skeleton label={state.phase === 'slow' ? 'The server is waking up. The first search can take a minute.' : 'Finding journeys'}
+                note={state.phase === 'slow' ? 'The server is waking up. The first search can take a minute.' : null} />
+            )}
+            {state.phase === 'error' && (
+              <p className="notice error" role="alert">
+                {state.message}. <button type="button" className="text-btn" onClick={() => search(from, to, time)}>Try again</button>
+              </p>
+            )}
+            {state.phase === 'done' && items.length === 0 && (
+              <div className="empty">
+                <p className="empty-title">No journey found</p>
+                <p>Nothing runs from {from.name} to {to.name} after {time}. Try an earlier time.</p>
+              </div>
+            )}
+            {state.phase === 'done' && items.length > 0 && (
+              <>
+                <h2 className="results-title">{items.length === 1 ? '1 journey' : `${items.length} journeys`}<span className="soft"> · {from.name} to {to.name}</span></h2>
+                <Journeys items={items} selected={selected} expanded={expanded} queryMinutes={queryMinutes}
+                  onSelect={(i) => { setExpanded(i === expanded ? -1 : i); setSelected(i) }} />
+                {found.slower.length > 0 && !showSlower && (
+                  <p className="more">
+                    <button type="button" className="text-btn" onClick={() => setShowSlower(true)}>
+                      Show {found.slower.length} later {found.slower.length === 1 ? 'journey' : 'journeys'} with fewer changes
+                    </button>
+                  </p>
+                )}
+              </>
+            )}
           </div>
-        )}
-      </div>
+
+        </section>
+
+        <section className="mapbox" aria-label="Map">
+          <MapView shapes={shapes} legs={legs} lines={lines} />
+        </section>
+      </main>
     </div>
   )
 }

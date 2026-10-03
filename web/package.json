@@ -14,9 +14,6 @@
   "type": "module",
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
-    "@turf/helpers": "^7.4.0",
-    "@turf/line-slice": "^7.4.0",
-    "@turf/nearest-point-on-line": "^7.4.0",
     "leaflet": "^1.9.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
