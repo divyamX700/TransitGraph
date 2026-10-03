@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cstdlib>
 
 using namespace std;
 
@@ -27,9 +28,16 @@ string journeys_to_json(const vector<vector<JourneyLeg>>& journeys) {
             ss << "\"from\": \"" << leg.from_stop_id << "\", ";
             ss << "\"to\": \"" << leg.to_stop_id << "\", ";
             ss << "\"route_id\": \"" << leg.route_id << "\", ";
+            ss << "\"line\": \"" << leg.line << "\", ";
+            ss << "\"mode\": \"" << (leg.is_walk ? "WALK" : mode_name(leg.mode)) << "\", ";
+            ss << "\"is_walk\": " << (leg.is_walk ? "true" : "false") << ", ";
+            ss << "\"walk_m\": " << leg.walk_meters << ", ";
             ss << "\"trip_id\": \"" << leg.trip_id << "\", ";
             ss << "\"dep\": \"" << format_time(leg.departure_time) << "\", ";
-            ss << "\"arr\": \"" << format_time(leg.arrival_time) << "\"";
+            ss << "\"arr\": \"" << format_time(leg.arrival_time) << "\", ";
+            // Minutes since midnight of the query day; 1440 or more means the next day
+            ss << "\"dep_min\": " << leg.departure_time << ", ";
+            ss << "\"arr_min\": " << leg.arrival_time;
             ss << "}";
             if (j < journeys[i].size() - 1) ss << ", ";
         }
@@ -73,7 +81,10 @@ int main(int argc, char** argv) {
         getline(ss, target, ',');
         getline(ss, time_str, ',');
         
-        if (source.empty() || target.empty() || time_str.empty()) {
+        char* end = nullptr;
+        long dep_time = strtol(time_str.c_str(), &end, 10);
+        if (source.empty() || target.empty() || time_str.empty() || *end != '\0' ||
+            dep_time < 0 || dep_time >= 24 * 60) {
             cout << uuid << "|{\"error\": \"Invalid format\"}" << endl;
             continue;
         }
@@ -86,7 +97,6 @@ int main(int argc, char** argv) {
             cout << uuid << "|{\"cached\": true, \"routes\": " << json_result << "}" << endl;
         } else {
             // Cache Miss -> Run RAPTOR
-            int dep_time = stoi(time_str);
             auto journeys = raptor.compute_pareto_routes(source, target, dep_time);
             
             json_result = journeys_to_json(journeys);
